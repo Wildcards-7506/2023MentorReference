@@ -11,9 +11,9 @@ import edu.wpi.first.math.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.math.geometry.Rotation2d;
-//import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.SerialPort;
-import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.AnalogGyro;
+//import edu.wpi.first.wpilibj.SerialPort;
+//import com.kauailabs.navx.frc.AHRS;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -37,8 +37,8 @@ public class Drivetrain extends SubsystemBase{
 
     public final MecanumDrive m_drive;
 
-    public AHRS gyro = new AHRS(SerialPort.Port.kUSB);
-    //public AnalogGyro gyro = new AnalogGyro(1);
+    //public AHRS gyro = new AHRS(SerialPort.Port.kUSB);
+    public AnalogGyro gyro = new AnalogGyro(1);
 
     public MecanumDriveOdometry odometry;
     
@@ -147,13 +147,17 @@ public class Drivetrain extends SubsystemBase{
         motorRight1.setVoltage(volts.rearRightVoltage);
     }
 
-    public void setDropWheels(int level, double speed){
+    public void setDropWheels(int level, double speedL, double speedR){
         double marginL = level - m_dropEncoderLeft.getPosition();
         double marginR = level - m_dropEncoderRight.getPosition();
-        dropMotorLeft.setVoltage(speed);
-        dropMotorRight.setVoltage(speed);
-        dropMotorLeftEngage.setVoltage(12*marginL/Math.abs(marginL));
-        dropMotorRightEngage.setVoltage(12*marginR/Math.abs(marginR));
+        dropMotorLeft.setVoltage(speedL);
+        dropMotorRight.setVoltage(speedR);
+        if(Math.abs(marginL) > 1){
+            dropMotorLeftEngage.setVoltage(12*marginL/Math.abs(marginL));
+        } else {dropMotorLeftEngage.setVoltage(0);}
+        if(Math.abs(marginR) > 1){
+            dropMotorRightEngage.setVoltage(12*marginR/Math.abs(marginR));
+        } else {dropMotorRightEngage.setVoltage(0);}
     }
 
     public void snap(int direction){

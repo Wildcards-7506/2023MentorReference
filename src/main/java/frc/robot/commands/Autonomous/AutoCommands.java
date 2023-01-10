@@ -48,7 +48,7 @@ public class AutoCommands {
       }
 
     public static double getPitch(){
-        return Robot.drivetrain.gyro.getPitch();
+        return 1;//Robot.drivetrain.gyro.getPitch();
     }
 
     public static void chargeAlign(){

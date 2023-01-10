@@ -32,17 +32,17 @@ public class DrivetrainTOCom extends CommandBase{
                                         PlayerConfigs.fturnSpeed * PlayerConfigs.fturnSpeed, 
                                         false);
             } else {
-                Robot.drivetrain.setDropWheels(0, 0);
+                Robot.drivetrain.setDropWheels(0, 0, 0);
                 Robot.drivetrain.drive(xSpeed, ySpeed, turnSpeed, true);
             }
         } else if (PlayerConfigs.snap != -1){
             Robot.drivetrain.snap(PlayerConfigs.snap);
         } else if (PlayerConfigs.NOX){
-            Robot.drivetrain.setDropWheels(DriveConstants.DROP_WHEEL_DISTANCE, 12);
+            Robot.drivetrain.setDropWheels(DriveConstants.DROP_WHEEL_DISTANCE, 12, 12);
             Robot.drivetrain.drive(1,0,0,false);
         } else {
             //Tank Drive, Strafing Disabled
-            Robot.drivetrain.setDropWheels(DriveConstants.DROP_WHEEL_DISTANCE, 12 * xSpeed);
+            Robot.drivetrain.setDropWheels(DriveConstants.DROP_WHEEL_DISTANCE, 12 * (xSpeed - turnSpeed), 12 * (xSpeed + turnSpeed));
             Robot.drivetrain.drive(xSpeed, 0, turnSpeed, false);
         }
 
