@@ -1,8 +1,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.PlayerConfigs;
 import frc.robot.Robot;
+import frc.robot.playerconfigs.PlayerConfigBase;
 
 public class LimelightTOCom extends CommandBase{
 
@@ -15,9 +15,9 @@ public class LimelightTOCom extends CommandBase{
     @Override
     public void execute(){
         Robot.limelight.updateData();
-        if(PlayerConfigs.switchPipeline != prev_StartButton){
-            prev_StartButton = PlayerConfigs.switchPipeline;
-            if(PlayerConfigs.switchPipeline){
+        if(PlayerConfigBase.switchPipeline != prev_StartButton){
+            prev_StartButton = PlayerConfigBase.switchPipeline;
+            if(PlayerConfigBase.switchPipeline){
                 Robot.limelight.switchCameraMode();
             }
         }

@@ -1,6 +1,8 @@
-package frc.robot;
+package frc.robot.playerconfigs;
 
-public class PlayerConfigs {
+import frc.robot.Robot;
+
+public class PlayerConfigBase {
     
     //drivetrain
     public static double xMovement;
@@ -33,7 +35,8 @@ public class PlayerConfigs {
     public static boolean openClaw;
     public static boolean closeClaw;
 
-    public static void getDriverConfig(){
+    //DRIVER CONTROLS
+    public void getDriverConfig(){
         //drivetrain
         yMovement = Robot.controller0.getLeftX();
         xMovement = Robot.controller0.getLeftY();
@@ -47,15 +50,16 @@ public class PlayerConfigs {
         modeSwitch = Robot.controller0.getR2Axis();
     }
 
-    public static void getCoDriverConfig(){  
+    //CODRIVER CONTROLS
+    public void getCoDriverConfig(){  
         //limelight
         switchPipeline = Robot.controller1.getStartButton();
 
         //Arm Positions
-        groundPosition = Robot.controller1.getAButton();
-        midPosition = Robot.controller1.getBButton();
-        hiPosition = Robot.controller1.getYButton();
-        collectPosition = Robot.controller1.getXButton();
+        groundPosition = Robot.controller1.getPOV() == 180;
+        midPosition = Robot.controller1.getPOV() == 90;
+        hiPosition = Robot.controller1.getPOV() == 0;
+        collectPosition = Robot.controller1.getPOV() == 270;
 
         //Claw Operation
         openClaw = Robot.controller1.getRightBumper();
@@ -68,6 +72,4 @@ public class PlayerConfigs {
         fturnSpeed = 0.2;
         fdriveSpeed = 0.2;
     }
-
-    
 }

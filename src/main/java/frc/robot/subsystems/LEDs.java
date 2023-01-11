@@ -2,14 +2,13 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.simulation.AddressableLEDSim;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LEDs extends SubsystemBase{
+    public static Alliance teamColor;
     private AddressableLED m_led;
     private AddressableLEDBuffer m_ledBuffer;
-
-    private AddressableLEDSim m_led_sim;
     // Store what the last hue of the first pixel is
     private int m_rainbowFirstPixelHue;
 
@@ -17,9 +16,6 @@ public class LEDs extends SubsystemBase{
     public LEDs(int pwmPort, int bufferSize){
         m_led = new AddressableLED(pwmPort);
         m_ledBuffer = new AddressableLEDBuffer(bufferSize);
-
-        m_led_sim = new AddressableLEDSim(m_led);
-        m_led_sim.setLength(bufferSize);
 
         m_led.setLength(bufferSize);
         m_led.setData(m_ledBuffer);
@@ -46,20 +42,20 @@ public class LEDs extends SubsystemBase{
         update();
     }
 
-    public void solid(int hue) {
+    public void solid(int hue, int sat, int val) {
         // For every pixel
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
           // Set the value
-          m_ledBuffer.setHSV(i, hue, 255, 255);
+          m_ledBuffer.setHSV(i, hue, sat, val);
         }
         update();
     }
 
-    public void teamColor(String isRed) {
+    public void teamColor() {
         // For every pixel
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-          // Set the value
-          int hue = (isRed == "Red") ? 0 : 120;
+          // Set the value Red or Blue, depending on team color
+          int hue = (teamColor == Alliance.Red) ? 0 : 120;
           m_ledBuffer.setHSV(i, hue, 255, 255);
         }
         update();

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.playerconfigs.PlayerConfigBase;
 import frc.robot.subsystems.Crane;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
@@ -25,6 +26,8 @@ import frc.robot.subsystems.LEDs;
  */
 public class Robot extends TimedRobot {  
   private SequentialCommandGroup autoMode;
+  public PlayerConfigBase driver;
+  public PlayerConfigBase coDriver;
   //Subsystem Declarations
 
   public static final Drivetrain drivetrain = new Drivetrain(
@@ -85,7 +88,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     CommandScheduler.getInstance().cancelAll();
     //Need LED Indicator Here
-    autoMode = HDD.m_chooser.getSelected();
+    autoMode = HDD.auto_chooser.getSelected();
     autoMode.schedule();
   }
 
@@ -98,15 +101,18 @@ public class Robot extends TimedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
-    Constants.teamColor = DriverStation.getAlliance().toString();
+    LEDs.teamColor = DriverStation.getAlliance();
+    driver = HDD.driver_chooser.getSelected();
+    coDriver = HDD.codriver_chooser.getSelected();
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
-    PlayerConfigs.getDriverConfig();
-    PlayerConfigs.getCoDriverConfig();
+    driver.getDriverConfig();
+    coDriver.getCoDriverConfig();
+    ledStrip.teamColor();
   }
 
   /** This function is called once when the robot is disabled. */
@@ -117,8 +123,8 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     HDD.updateStartupConfig();
+    ledStrip.rainbow();
     // Need LED Display Here
-    SmartDashboard.putString("AUTO MODE", HDD.m_chooser.getSelected().getName());
   }
 
   /** This function is called once when test mode is enabled. */

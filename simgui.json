@@ -1,5 +1,10 @@
 {
   "HALProvider": {
+    "Addressable LEDs": {
+      "window": {
+        "visible": true
+      }
+    },
     "Other Devices": {
       "SPARK MAX [0]": {
         "header": {
@@ -14,7 +19,9 @@
       "/LiveWindow/Ungrouped/AnalogGyro[1]": "Gyro",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Scheduler": "Scheduler",
-      "/SmartDashboard/SendableChooser[0]": "String Chooser"
+      "/SmartDashboard/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/SendableChooser[1]": "String Chooser",
+      "/SmartDashboard/SendableChooser[2]": "String Chooser"
     },
     "windows": {
       "/SmartDashboard/Scheduler": {
@@ -23,6 +30,16 @@
         }
       },
       "/SmartDashboard/SendableChooser[0]": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/SendableChooser[1]": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/SendableChooser[2]": {
         "window": {
           "visible": true
         }
@@ -35,6 +52,17 @@
         "SendableChooser[0]": {
           "open": true
         },
+        "SendableChooser[1]": {
+          "open": true
+        },
+        "SendableChooser[2]": {
+          "open": true
+        },
+        "open": true
+      }
+    },
+    "transitory": {
+      "SmartDashboard": {
         "open": true
       }
     }

@@ -1,13 +1,11 @@
-package frc.robot.commands.Autonomous;
+package frc.robot.commands.autonomous;
 
+import frc.robot.Constants;
 import frc.robot.Robot;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.kinematics.MecanumDriveMotorVoltages;
 import edu.wpi.first.math.trajectory.Trajectory;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.CraneConstants;
-import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
 
@@ -19,23 +17,23 @@ public class AutoCommands {
             new MecanumControllerCommand(
                 trajectory,
                 Robot.drivetrain::getPose,
-                DriveConstants.kFeedforward,
-                DriveConstants.kinematics,
+                Constants.kFeedforward,
+                Constants.kinematics,
     
                 // Position contollers
-                new PIDController(AutoConstants.kPXController, 0, 0),
-                new PIDController(AutoConstants.kPYController, 0, 0),
+                new PIDController(Constants.kPXController, 0, 0),
+                new PIDController(Constants.kPYController, 0, 0),
                 new ProfiledPIDController(
-                    AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints),
+                    Constants.kPThetaController, 0, 0, Constants.kThetaControllerConstraints),
     
                 // Needed for normalizing wheel speeds
-                AutoConstants.kMaxSpeedMetersPerSecond,
+                Constants.kMaxSpeedMetersPerSecond,
     
                 // Velocity PID's
-                new PIDController(DriveConstants.kPFrontLeftVel, 0, 0),
-                new PIDController(DriveConstants.kPRearLeftVel, 0, 0),
-                new PIDController(DriveConstants.kPFrontRightVel, 0, 0),
-                new PIDController(DriveConstants.kPRearRightVel, 0, 0),
+                new PIDController(Constants.kPFrontLeftVel, 0, 0),
+                new PIDController(Constants.kPRearLeftVel, 0, 0),
+                new PIDController(Constants.kPFrontRightVel, 0, 0),
+                new PIDController(Constants.kPRearRightVel, 0, 0),
                 Robot.drivetrain::getWheelSpeeds,
                 Robot.drivetrain::setDriveMotorControllersVolts, // Consumer for the output motor voltages
                 Robot.drivetrain);
@@ -51,6 +49,7 @@ public class AutoCommands {
         return 1;//Robot.drivetrain.gyro.getPitch();
     }
 
+    //need a better way than while loops here
     public static void chargeAlign(){
         while(getPitch() != 0){
             double setpoint = 0.2 * getPitch()/Math.abs(getPitch());
@@ -69,33 +68,33 @@ public class AutoCommands {
     }
 
     public static void autoScore(){
-        while ( Math.abs(Robot.crane.getRotator() - CraneConstants.kRotatorHi) > 1 
-                & Math.abs(Robot.crane.getExtender() - CraneConstants.kExtenderHi) > 1){
-            Robot.crane.setArmPosition(CraneConstants.kRotatorHi);
-            Robot.crane.setExtendPosition(CraneConstants.kExtenderHi);
+        while ( Math.abs(Robot.crane.getRotator() - Constants.kRotatorHi) > 1 
+                & Math.abs(Robot.crane.getExtender() - Constants.kExtenderHi) > 1){
+            Robot.crane.setArmPosition(Constants.kRotatorHi);
+            Robot.crane.setExtendPosition(Constants.kExtenderHi);
             Robot.drivetrain.m_drive.feed();
         }
         Robot.crane.setClaw(true);
-        while ( Math.abs(Robot.crane.getRotator() - CraneConstants.kRotatorCollect) > 1 
-                & Math.abs(Robot.crane.getExtender() - CraneConstants.kExtenderClosed) > 1){
-            Robot.crane.setArmPosition(CraneConstants.kRotatorCollect);
-            Robot.crane.setExtendPosition(CraneConstants.kExtenderClosed);
+        while ( Math.abs(Robot.crane.getRotator() - Constants.kRotatorCollect) > 1 
+                & Math.abs(Robot.crane.getExtender() - Constants.kExtenderClosed) > 1){
+            Robot.crane.setArmPosition(Constants.kRotatorCollect);
+            Robot.crane.setExtendPosition(Constants.kExtenderClosed);
             Robot.drivetrain.m_drive.feed();
         }
     }
 
     public static void autoCollect(){
-        while ( Math.abs(Robot.crane.getRotator() - CraneConstants.kRotatorCollect) > 1 
-                & Math.abs(Robot.crane.getExtender() - CraneConstants.kExtenderCollect) > 1){
-            Robot.crane.setArmPosition(CraneConstants.kRotatorCollect);
-            Robot.crane.setExtendPosition(CraneConstants.kExtenderClosed);
+        while ( Math.abs(Robot.crane.getRotator() - Constants.kRotatorCollect) > 1 
+                & Math.abs(Robot.crane.getExtender() - Constants.kExtenderCollect) > 1){
+            Robot.crane.setArmPosition(Constants.kRotatorCollect);
+            Robot.crane.setExtendPosition(Constants.kExtenderClosed);
             Robot.drivetrain.m_drive.feed();
         }
         Robot.crane.setClaw(false);
-        while ( Math.abs(Robot.crane.getRotator() - CraneConstants.kRotatorCollect) > 1 
-                & Math.abs(Robot.crane.getExtender() - CraneConstants.kExtenderClosed) > 1){
-            Robot.crane.setArmPosition(CraneConstants.kRotatorCollect);
-            Robot.crane.setExtendPosition(CraneConstants.kExtenderClosed);
+        while ( Math.abs(Robot.crane.getRotator() - Constants.kRotatorCollect) > 1 
+                & Math.abs(Robot.crane.getExtender() - Constants.kExtenderClosed) > 1){
+            Robot.crane.setArmPosition(Constants.kRotatorCollect);
+            Robot.crane.setExtendPosition(Constants.kExtenderClosed);
             Robot.drivetrain.m_drive.feed();
         }
     }

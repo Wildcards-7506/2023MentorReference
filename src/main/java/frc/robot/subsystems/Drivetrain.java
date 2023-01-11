@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants;
 import frc.robot.HDD;
 import frc.robot.commands.DrivetrainTOCom;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -22,11 +22,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class Drivetrain extends SubsystemBase{
     private CANSparkMax motorLeft0;
     private CANSparkMax motorLeft1;
-    private CANSparkMax dropMotorLeft;
     private CANSparkMax dropMotorLeftEngage;
     private CANSparkMax motorRight0;
     private CANSparkMax motorRight1;
-    private CANSparkMax dropMotorRight;
     private CANSparkMax dropMotorRightEngage;
     public RelativeEncoder m_leftEncoder0;
     public RelativeEncoder m_rightEncoder0; 
@@ -49,8 +47,6 @@ public class Drivetrain extends SubsystemBase{
         motorLeft1 = new CANSparkMax(l1, MotorType.kBrushless);
         motorRight0 = new CANSparkMax(r0, MotorType.kBrushless);
         motorRight1 = new CANSparkMax(r1, MotorType.kBrushless);
-        dropMotorLeft = new CANSparkMax(ldd, MotorType.kBrushless);
-        dropMotorRight = new CANSparkMax(rdd, MotorType.kBrushless);
         dropMotorLeftEngage = new CANSparkMax(ldm, MotorType.kBrushless);
         dropMotorRightEngage = new CANSparkMax(rdm, MotorType.kBrushless);
 
@@ -63,17 +59,16 @@ public class Drivetrain extends SubsystemBase{
 
         motorRight1.setInverted(true);
         motorRight0.setInverted(true);
-        dropMotorRight.setInverted(true);
 
         m_drive = new MecanumDrive(motorLeft0, motorLeft1, motorRight0, motorRight1);
 
         resetEncoders();
 
-        odometry = new MecanumDriveOdometry(DriveConstants.kinematics, Rotation2d.fromDegrees(getHeading()), getWheelPositions());
-        m_leftEncoder0.setPositionConversionFactor(DriveConstants.kEncoderDistancePerPulse);
-        m_rightEncoder0.setPositionConversionFactor(DriveConstants.kEncoderDistancePerPulse);
-        m_leftEncoder1.setPositionConversionFactor(DriveConstants.kEncoderDistancePerPulse);
-        m_rightEncoder1.setPositionConversionFactor(DriveConstants.kEncoderDistancePerPulse);
+        odometry = new MecanumDriveOdometry(Constants.kinematics, Rotation2d.fromDegrees(getHeading()), getWheelPositions());
+        m_leftEncoder0.setPositionConversionFactor(Constants.kEncoderDistancePerPulse);
+        m_rightEncoder0.setPositionConversionFactor(Constants.kEncoderDistancePerPulse);
+        m_leftEncoder1.setPositionConversionFactor(Constants.kEncoderDistancePerPulse);
+        m_rightEncoder1.setPositionConversionFactor(Constants.kEncoderDistancePerPulse);
     }
 
     //Every scheduler cycle, we pass our XBox controls so we can control the drivetrain and update its pose in the dashboards
@@ -147,11 +142,9 @@ public class Drivetrain extends SubsystemBase{
         motorRight1.setVoltage(volts.rearRightVoltage);
     }
 
-    public void setDropWheels(int level, double speedL, double speedR){
+    public void setDropWheels(int level){
         double marginL = level - m_dropEncoderLeft.getPosition();
         double marginR = level - m_dropEncoderRight.getPosition();
-        dropMotorLeft.setVoltage(speedL);
-        dropMotorRight.setVoltage(speedR);
         if(Math.abs(marginL) > 1){
             dropMotorLeftEngage.setVoltage(12*marginL/Math.abs(marginL));
         } else {dropMotorLeftEngage.setVoltage(0);}

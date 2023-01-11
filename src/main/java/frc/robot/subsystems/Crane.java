@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.CraneConstants;
+import frc.robot.Constants;
 import frc.robot.commands.CraneTOCom;
 
 import com.revrobotics.CANSparkMax;
@@ -17,7 +17,7 @@ public class Crane extends SubsystemBase{
     public RelativeEncoder m_rotateEncoder;
     public RelativeEncoder m_extendEncoder; 
     public RelativeEncoder m_clawEncoder;
-    private PIDController pid = new PIDController(CraneConstants.kRotatorKP, 0, 0);
+    private PIDController pid = new PIDController(Constants.kRotatorKP, 0, 0);
 
     public Crane (int rotator, int extender, int claw){
         craneRotator = new CANSparkMax(rotator, MotorType.kBrushless);
@@ -28,9 +28,9 @@ public class Crane extends SubsystemBase{
         m_extendEncoder = craneExtender.getEncoder();
         m_clawEncoder = clawManipulator.getEncoder();
 
-        m_rotateEncoder.setPositionConversionFactor(CraneConstants.kRotateEncoderDistancePerPulse);
-        m_extendEncoder.setPositionConversionFactor(CraneConstants.kExtendEncoderDistancePerPulse);
-        m_clawEncoder.setPositionConversionFactor(CraneConstants.kClawEncoderDistancePerPulse);
+        m_rotateEncoder.setPositionConversionFactor(Constants.kRotateEncoderDistancePerPulse);
+        m_extendEncoder.setPositionConversionFactor(Constants.kExtendEncoderDistancePerPulse);
+        m_clawEncoder.setPositionConversionFactor(Constants.kClawEncoderDistancePerPulse);
     }
 
     @Override
@@ -58,9 +58,9 @@ public class Crane extends SubsystemBase{
     }
 
     public void setClaw(boolean open){
-        if(open & getClaw() < CraneConstants.kClawOpen){
+        if(open & getClaw() < Constants.kClawOpen){
             clawManipulator.setVoltage(12);
-        } else if(!open & getClaw() > CraneConstants.kClawClosed) {
+        } else if(!open & getClaw() > Constants.kClawClosed) {
             clawManipulator.setVoltage(-12);
         } else {
             clawManipulator.setVoltage(0);

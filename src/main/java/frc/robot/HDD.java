@@ -5,22 +5,28 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Autonomous.Modes.AutoRoutineBlueCenterCharge;
-import frc.robot.commands.Autonomous.Modes.AutoRoutineBlueCenterOut;
-import frc.robot.commands.Autonomous.Modes.AutoRoutineBlueLoadCharge;
-import frc.robot.commands.Autonomous.Modes.AutoRoutineBlueLoadOut;
-import frc.robot.commands.Autonomous.Modes.AutoRoutineBlueWallCharge;
-import frc.robot.commands.Autonomous.Modes.AutoRoutineBlueWallOut;
-import frc.robot.commands.Autonomous.Modes.AutoRoutineRedCenterCharge;
-import frc.robot.commands.Autonomous.Modes.AutoRoutineRedCenterOut;
-import frc.robot.commands.Autonomous.Modes.AutoRoutineRedLoadCharge;
-import frc.robot.commands.Autonomous.Modes.AutoRoutineRedLoadOut;
-import frc.robot.commands.Autonomous.Modes.AutoRoutineRedWallCharge;
-import frc.robot.commands.Autonomous.Modes.AutoRoutineRedWallOut;
+import frc.robot.commands.autonomous.routines.AutoRoutineBlueCenterCharge;
+import frc.robot.commands.autonomous.routines.AutoRoutineBlueCenterOut;
+import frc.robot.commands.autonomous.routines.AutoRoutineBlueLoadCharge;
+import frc.robot.commands.autonomous.routines.AutoRoutineBlueLoadOut;
+import frc.robot.commands.autonomous.routines.AutoRoutineBlueWallCharge;
+import frc.robot.commands.autonomous.routines.AutoRoutineBlueWallOut;
+import frc.robot.commands.autonomous.routines.AutoRoutineRedCenterCharge;
+import frc.robot.commands.autonomous.routines.AutoRoutineRedCenterOut;
+import frc.robot.commands.autonomous.routines.AutoRoutineRedLoadCharge;
+import frc.robot.commands.autonomous.routines.AutoRoutineRedLoadOut;
+import frc.robot.commands.autonomous.routines.AutoRoutineRedWallCharge;
+import frc.robot.commands.autonomous.routines.AutoRoutineRedWallOut;
+import frc.robot.playerconfigs.PlayerConfigBase;
+import frc.robot.playerconfigs.configs.AnthonyController;
+import frc.robot.playerconfigs.configs.MentorController;
+import frc.robot.playerconfigs.configs.RyanController;
 
 public class HDD {    
-    public static SendableChooser<SequentialCommandGroup> m_chooser = new SendableChooser<>();
-
+    public static SendableChooser<SequentialCommandGroup> auto_chooser = new SendableChooser<>();
+    public static SendableChooser<PlayerConfigBase> driver_chooser = new SendableChooser<>();
+    public static SendableChooser<PlayerConfigBase> codriver_chooser = new SendableChooser<>();
+    
     //Field display to Shuffleboard
     public static Field2d m_field;
     public static Field2d logo;
@@ -30,21 +36,29 @@ public class HDD {
 
     public static void initBot(){
 
-        m_chooser.setDefaultOption("Blue Center Out", new AutoRoutineBlueCenterOut());
-        m_chooser.addOption("Blue Center Charge", new AutoRoutineBlueCenterCharge());
-        m_chooser.addOption("Blue Wall Out", new AutoRoutineBlueWallOut());
-        m_chooser.addOption("Blue Wall Charge", new AutoRoutineBlueWallCharge());
-        m_chooser.addOption("Blue Load Out", new AutoRoutineBlueLoadOut());
-        m_chooser.addOption("Blue Load Charge", new AutoRoutineBlueLoadCharge());
-        m_chooser.addOption("Red Center Out", new AutoRoutineRedCenterOut());
-        m_chooser.addOption("Red Center Charge", new AutoRoutineRedCenterCharge());
-        m_chooser.addOption("Red Wall Out", new AutoRoutineRedWallOut());
-        m_chooser.addOption("Red Wall Charge", new AutoRoutineRedWallCharge());
-        m_chooser.addOption("Red Load Out", new AutoRoutineRedLoadOut());
-        m_chooser.addOption("Red Load Charge", new AutoRoutineRedLoadCharge());
+        auto_chooser.setDefaultOption("Blue Center Out", new AutoRoutineBlueCenterOut());
+        auto_chooser.addOption("Blue Center Charge", new AutoRoutineBlueCenterCharge());
+        auto_chooser.addOption("Blue Wall Out", new AutoRoutineBlueWallOut());
+        auto_chooser.addOption("Blue Wall Charge", new AutoRoutineBlueWallCharge());
+        auto_chooser.addOption("Blue Load Out", new AutoRoutineBlueLoadOut());
+        auto_chooser.addOption("Blue Load Charge", new AutoRoutineBlueLoadCharge());
+        auto_chooser.addOption("Red Center Out", new AutoRoutineRedCenterOut());
+        auto_chooser.addOption("Red Center Charge", new AutoRoutineRedCenterCharge());
+        auto_chooser.addOption("Red Wall Out", new AutoRoutineRedWallOut());
+        auto_chooser.addOption("Red Wall Charge", new AutoRoutineRedWallCharge());
+        auto_chooser.addOption("Red Load Out", new AutoRoutineRedLoadOut());
+        auto_chooser.addOption("Red Load Charge", new AutoRoutineRedLoadCharge());
+
+        driver_chooser.setDefaultOption("Ryan", new RyanController());
+        driver_chooser.addOption("Mentor", new MentorController());
+
+        codriver_chooser.setDefaultOption("Anthony", new AnthonyController());
+        codriver_chooser.addOption("Mentor", new MentorController());
 
         // Put the choosers on the dashboard
-        SmartDashboard.putData(m_chooser);
+        SmartDashboard.putData(auto_chooser);
+        SmartDashboard.putData(driver_chooser);
+        SmartDashboard.putData(codriver_chooser);
         SmartDashboard.putNumber("Startup Time",1.5);
         
         // Create and push Field2d to SmartDashboard.
@@ -56,6 +70,6 @@ public class HDD {
     }
 
     public static void updateStartupConfig(){
-        desiredMode = m_chooser.getSelected();
+        desiredMode = auto_chooser.getSelected();
     }
 }

@@ -1,8 +1,8 @@
 package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.PlayerConfigs;
+import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.playerconfigs.PlayerConfigBase;
 
 public class DrivetrainTOCom extends CommandBase{
 
@@ -20,29 +20,29 @@ public class DrivetrainTOCom extends CommandBase{
 
     @Override
     public void execute(){
-        turnSpeed = DriveConstants.RAMP_RATE * (PlayerConfigs.turnMovement * PlayerConfigs.turnSpeed) + (1-DriveConstants.RAMP_RATE) * prevTurn;
-        xSpeed = DriveConstants.RAMP_RATE * (PlayerConfigs.driveSpeed * PlayerConfigs.xMovement) + (1-DriveConstants.RAMP_RATE) * prevX;
-        ySpeed = DriveConstants.RAMP_RATE * (PlayerConfigs.driveSpeed * PlayerConfigs.yMovement) + (1-DriveConstants.RAMP_RATE) * prevY;
+        turnSpeed = Constants.RAMP_RATE * (PlayerConfigBase.turnMovement * PlayerConfigBase.turnSpeed) + (1-Constants.RAMP_RATE) * prevTurn;
+        xSpeed = Constants.RAMP_RATE * (PlayerConfigBase.driveSpeed * PlayerConfigBase.xMovement) + (1-Constants.RAMP_RATE) * prevX;
+        ySpeed = Constants.RAMP_RATE * (PlayerConfigBase.driveSpeed * PlayerConfigBase.yMovement) + (1-Constants.RAMP_RATE) * prevY;
 
-        if(driveMode & PlayerConfigs.snap == -1){
+        if(driveMode & PlayerConfigBase.snap == -1){
             //Mecanum Drive, Strafing Enabled
-            if(PlayerConfigs.fineControl > 0.5){
-                Robot.drivetrain.drive( PlayerConfigs.fxMovement * PlayerConfigs.fdriveSpeed, 
-                                        PlayerConfigs.fyMovement * PlayerConfigs.fdriveSpeed, 
-                                        PlayerConfigs.fturnSpeed * PlayerConfigs.fturnSpeed, 
+            if(PlayerConfigBase.fineControl > 0.5){
+                Robot.drivetrain.drive( PlayerConfigBase.fxMovement * PlayerConfigBase.fdriveSpeed, 
+                                        PlayerConfigBase.fyMovement * PlayerConfigBase.fdriveSpeed, 
+                                        PlayerConfigBase.fturnSpeed * PlayerConfigBase.fturnSpeed, 
                                         false);
             } else {
-                Robot.drivetrain.setDropWheels(0, 0, 0);
+                Robot.drivetrain.setDropWheels(0);
                 Robot.drivetrain.drive(xSpeed, ySpeed, turnSpeed, true);
             }
-        } else if (PlayerConfigs.snap != -1){
-            Robot.drivetrain.snap(PlayerConfigs.snap);
-        } else if (PlayerConfigs.NOX){
-            Robot.drivetrain.setDropWheels(DriveConstants.DROP_WHEEL_DISTANCE, 12, 12);
+        } else if (PlayerConfigBase.snap != -1){
+            Robot.drivetrain.snap(PlayerConfigBase.snap);
+        } else if (PlayerConfigBase.NOX){
+            Robot.drivetrain.setDropWheels(Constants.DROP_WHEEL_DISTANCE);
             Robot.drivetrain.drive(1,0,0,false);
         } else {
             //Tank Drive, Strafing Disabled
-            Robot.drivetrain.setDropWheels(DriveConstants.DROP_WHEEL_DISTANCE, 12 * (xSpeed - turnSpeed), 12 * (xSpeed + turnSpeed));
+            Robot.drivetrain.setDropWheels(Constants.DROP_WHEEL_DISTANCE);
             Robot.drivetrain.drive(xSpeed, 0, turnSpeed, false);
         }
 
@@ -50,7 +50,7 @@ public class DrivetrainTOCom extends CommandBase{
         prevY = ySpeed;
         prevTurn = turnSpeed;
 
-        if (PlayerConfigs.modeSwitch > 0.8){
+        if (PlayerConfigBase.modeSwitch > 0.8){
             driveMode = false;
         } else {
             driveMode = true;
