@@ -10,19 +10,17 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 public final class Constants {
     //Motor IDs
         //Drivetrain
-        public static final int LEFT_DRIVE_TRAIN_0 = 0;
-        public static final int LEFT_DRIVE_TRAIN_1 = 9;
+        public static final int LEFT_DRIVE_TRAIN_0 = 1;
+        public static final int LEFT_DRIVE_TRAIN_1 = 10;
         public static final int RIGHT_DRIVE_TRAIN_0 = 20;
-        public static final int RIGHT_DRIVE_TRAIN_1 = 10;
-        public static final int RIGHT_DROP_DRIVE = 5;
-        public static final int LEFT_DROP_DRIVE = 14;
-        public static final int RIGHT_DROP_ENGAGE = 6;
-        public static final int LEFT_DROP_ENGAGE = 15;
+        public static final int RIGHT_DRIVE_TRAIN_1 = 11;
+        public static final int RIGHT_DROP_ENGAGE = 5;
+        public static final int LEFT_DROP_ENGAGE = 16;
 
         //Crane
-        public static final int ROTATOR = 1;
-        public static final int EXTENDER = 2;
-        public static final int CLAW = 3;
+        public static final int ROTATOR = 2;
+        public static final int EXTENDER = 3;
+        public static final int CLAW = 4;
 
     //Controller Assignments
         public static final int DRIVER_CONTROLLER_0 = 0;
@@ -55,6 +53,7 @@ public final class Constants {
         public static final int RIGHT_JOYSTICK_BUTTON = 12;
 
     //Drive Constants   
+        public static final int kDrivetrainCurrentLimit = 10;
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
@@ -69,7 +68,8 @@ public final class Constants {
         // Distance between centers of front and back wheels on robot
         public static final double kWheelBase = 0.7;
         //Current Gear ratio is 9:1 - THIS MAY CHANGE
-        public static final double kEncoderDistancePerPulse = 1/9 * Units.inchesToMeters(4);
+        public static final double driveTrainGearRatio = 1/9;
+        public static final double kEncoderDistancePerPulse = driveTrainGearRatio * Math.PI * Units.inchesToMeters(8);
 
         // Constraint for the motion profilied robot angle controller
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
@@ -103,22 +103,27 @@ public final class Constants {
         public static final int DROP_WHEEL_DISTANCE = 16;
 
     //Crane Constants
+        public static final int kCraneCurrentLimit = 10;
+        public static final int kExtenderCurrentLimit = 10;
+        public static final int kClawCurrentLimit = 10;
         public static final double kRotateEncoderDistancePerPulse = 1/125 * 360;
         public static final double kExtendEncoderDistancePerPulse = 0.125;
         public static final double kClawEncoderDistancePerPulse = 1.0;
 
         public static final double kRotatorKP = 1.0;
-        public static final double kRotatorGround = 240.0;
-        public static final double kRotatorMid = 200.0;
-        public static final double kRotatorHi = 180.0;
-        public static final double kRotatorCollect = 40.0;
+        public static final double kRotatorGround = 300.0;
+        public static final double kRotatorMid = 230.0;
+        public static final double kRotatorHi = 200.0;
+        public static final double kRotatorCollect = 90.0;
+        public static final double kRotatorClosed = 5.0;
 
-        public static final double kExtenderGround = 10.0;
-        public static final double kExtenderMid = 10.0;
-        public static final double kExtenderHi = 10.0;
-        public static final double kExtenderCollect = 10.0;
+        public static final double kExtenderGround = 24.0;
+        public static final double kExtenderMid = 38.0;
+        public static final double kExtenderHi = 48.0;
+        public static final double kExtenderCollect = 5.0;
         public static final double kExtenderClosed = 0.0;
         
-        public static double kClawOpen = 12.0;
-        public static double kClawClosed = 0.0;
+        public static final double kClawOpen = 85.0;
+        public static final double kClawClosed = 0.0;
+        public static final double kClawKP = 1.0;
 }

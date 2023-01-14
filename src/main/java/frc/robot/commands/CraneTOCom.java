@@ -24,8 +24,15 @@ public class CraneTOCom extends CommandBase{
         } else if (PlayerConfigBase.hiPosition){
             Robot.crane.setArmPosition(Constants.kRotatorHi);
             Robot.crane.setExtendPosition(Constants.kExtenderHi);
+        } else {
+            Robot.crane.setArmPosition(Constants.kRotatorClosed);
+            Robot.crane.setExtendPosition(Constants.kExtenderClosed);
         }
-
-        Robot.crane.setClaw(PlayerConfigBase.openClaw);
+        
+        if (PlayerConfigBase.openClaw){
+            Robot.crane.setClaw(Constants.kClawOpen);
+        } else {
+            Robot.crane.setClaw(Constants.kClawClosed);
+        }
     }
 }

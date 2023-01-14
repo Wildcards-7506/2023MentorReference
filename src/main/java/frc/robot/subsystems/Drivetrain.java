@@ -42,13 +42,18 @@ public class Drivetrain extends SubsystemBase{
     
     public double initPose = 0.0;
 
-    public Drivetrain (int l0, int l1, int r0, int r1, int rdd, int ldd, int rdm, int ldm){
+    public Drivetrain (int l0, int l1, int r0, int r1, int rdm, int ldm){
         motorLeft0 = new CANSparkMax(l0, MotorType.kBrushless);
         motorLeft1 = new CANSparkMax(l1, MotorType.kBrushless);
         motorRight0 = new CANSparkMax(r0, MotorType.kBrushless);
         motorRight1 = new CANSparkMax(r1, MotorType.kBrushless);
         dropMotorLeftEngage = new CANSparkMax(ldm, MotorType.kBrushless);
         dropMotorRightEngage = new CANSparkMax(rdm, MotorType.kBrushless);
+
+        motorLeft0.setSmartCurrentLimit(Constants.kDrivetrainCurrentLimit);
+        motorLeft1.setSmartCurrentLimit(Constants.kDrivetrainCurrentLimit);
+        motorRight0.setSmartCurrentLimit(Constants.kDrivetrainCurrentLimit);
+        motorRight1.setSmartCurrentLimit(Constants.kDrivetrainCurrentLimit);
 
         m_leftEncoder0 = motorLeft0.getEncoder();
         m_rightEncoder0 = motorRight0.getEncoder();
@@ -74,13 +79,13 @@ public class Drivetrain extends SubsystemBase{
     //Every scheduler cycle, we pass our XBox controls so we can control the drivetrain and update its pose in the dashboards
     @Override
     public void periodic(){
-        // Update the odometry in the periodic block
-        odometry.update(
-            gyro.getRotation2d(),
-            getWheelPositions());
-        HDD.m_field.setRobotPose(odometry.getPoseMeters());
-
         setDefaultCommand(new DrivetrainTOCom());
+    }
+
+    public void updateDrivetrain(){
+        // Update the odometry in the periodic block
+        odometry.update(gyro.getRotation2d(), getWheelPositions());
+        HDD.m_field.setRobotPose(odometry.getPoseMeters());
     }
 
     public Pose2d getPose(){
@@ -142,6 +147,7 @@ public class Drivetrain extends SubsystemBase{
         motorRight1.setVoltage(volts.rearRightVoltage);
     }
 
+    //Articulation of drop wheels
     public void setDropWheels(int level){
         double marginL = level - m_dropEncoderLeft.getPosition();
         double marginR = level - m_dropEncoderRight.getPosition();
@@ -153,6 +159,7 @@ public class Drivetrain extends SubsystemBase{
         } else {dropMotorRightEngage.setVoltage(0);}
     }
 
+    //Snap to specfic direction
     public void snap(int direction){
         double setpoint = 6 * (Math.abs(getHeading() - direction));
         setDriveMotorControllersVolts(
@@ -161,6 +168,7 @@ public class Drivetrain extends SubsystemBase{
                 setpoint, 
                 setpoint, 
                 setpoint));
+        m_drive.feed();
     }
 
     public void resetEncoders() {
@@ -174,13 +182,11 @@ public class Drivetrain extends SubsystemBase{
         m_drive.setMaxOutput(maxOutput);
     }
 
-    /** Zeroes the heading of the robot. */
     public void zeroHeading() {
         gyro.reset();
     }
 
     public double getHeading(){
-        // get the property
         return -gyro.getAngle();
     }
 

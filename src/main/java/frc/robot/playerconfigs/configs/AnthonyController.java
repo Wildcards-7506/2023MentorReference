@@ -12,7 +12,6 @@ public class AnthonyController extends PlayerConfigBase {
         xMovement = Robot.controller0.getLeftY();
         turnMovement = Robot.controller0.getRightX();
         snap = Robot.controller0.getPOV();
-        NOX = Robot.controller0.getR1Button();
         turnSpeed = 0.7;
         driveSpeed = 1;
 

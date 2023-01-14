@@ -8,6 +8,7 @@ import frc.robot.commands.CraneTOCom;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Crane extends SubsystemBase{
@@ -17,12 +18,31 @@ public class Crane extends SubsystemBase{
     public RelativeEncoder m_rotateEncoder;
     public RelativeEncoder m_extendEncoder; 
     public RelativeEncoder m_clawEncoder;
-    private PIDController pid = new PIDController(Constants.kRotatorKP, 0, 0);
+    private PIDController pidRot = new PIDController(Constants.kRotatorKP, 0, 0);
+    private PIDController pidClaw = new PIDController(Constants.kClawKP, 0, 0);
 
     public Crane (int rotator, int extender, int claw){
         craneRotator = new CANSparkMax(rotator, MotorType.kBrushless);
         craneExtender = new CANSparkMax(extender, MotorType.kBrushless);
         clawManipulator = new CANSparkMax(claw, MotorType.kBrushless);
+
+        craneRotator.enableSoftLimit(SoftLimitDirection.kForward, true);
+        craneRotator.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        craneExtender.enableSoftLimit(SoftLimitDirection.kForward, true);
+        craneExtender.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        clawManipulator.enableSoftLimit(SoftLimitDirection.kForward, true);
+        clawManipulator.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
+        craneRotator.setSoftLimit(SoftLimitDirection.kForward, 0);
+        craneRotator.setSoftLimit(SoftLimitDirection.kReverse, 330);
+        craneExtender.setSoftLimit(SoftLimitDirection.kForward, 0);
+        craneExtender.setSoftLimit(SoftLimitDirection.kReverse, 48);
+        clawManipulator.setSoftLimit(SoftLimitDirection.kForward, 90);
+        clawManipulator.setSoftLimit(SoftLimitDirection.kReverse, 0);
+
+        craneRotator.setSmartCurrentLimit(Constants.kCraneCurrentLimit);
+        craneExtender.setSmartCurrentLimit(Constants.kExtenderCurrentLimit);
+        clawManipulator.setSmartCurrentLimit(Constants.kClawCurrentLimit);
 
         m_rotateEncoder = craneRotator.getEncoder();
         m_extendEncoder = craneExtender.getEncoder();
@@ -36,17 +56,16 @@ public class Crane extends SubsystemBase{
     @Override
     public void periodic(){
         setDefaultCommand(new CraneTOCom());
-        updateArm();
     }
 
-    public void updateArm(){
+    public void updateCrane(){
         SmartDashboard.putNumber("Rotator", m_rotateEncoder.getPosition());
         SmartDashboard.putNumber("Extender", m_extendEncoder.getPosition());
         SmartDashboard.putNumber("Claw", m_clawEncoder.getPosition());
     }
 
     public void setArmPosition(double setting){
-        double setpoint = pid.calculate(getRotator(), setting);
+        double setpoint = pidRot.calculate(getRotator(), setting);
         craneRotator.setVoltage(12*setpoint);
     }
 
@@ -57,11 +76,10 @@ public class Crane extends SubsystemBase{
         } 
     }
 
-    public void setClaw(boolean open){
-        if(open & getClaw() < Constants.kClawOpen){
-            clawManipulator.setVoltage(12);
-        } else if(!open & getClaw() > Constants.kClawClosed) {
-            clawManipulator.setVoltage(-12);
+    public void setClaw(double setpoint){
+        double voltage = pidClaw.calculate(getClaw(), setpoint);
+        if (voltage > 0.5){
+            craneExtender.setVoltage(voltage);
         } else {
             clawManipulator.setVoltage(0);
         }

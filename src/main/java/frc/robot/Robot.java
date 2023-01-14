@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.autonomous.AutoCommands;
 import frc.robot.playerconfigs.PlayerConfigBase;
 import frc.robot.subsystems.Crane;
 import frc.robot.subsystems.Drivetrain;
@@ -35,8 +36,6 @@ public class Robot extends TimedRobot {
     Constants.LEFT_DRIVE_TRAIN_1,
     Constants.RIGHT_DRIVE_TRAIN_0,
     Constants.RIGHT_DRIVE_TRAIN_1,
-    Constants.RIGHT_DROP_DRIVE,
-    Constants.LEFT_DROP_DRIVE,
     Constants.RIGHT_DROP_ENGAGE,
     Constants.LEFT_DROP_ENGAGE
   );
@@ -51,6 +50,7 @@ public class Robot extends TimedRobot {
 
   //Buffer Size is TBD - need a new programmer to develop the color scheme/feedback methods
   public static final LEDs ledStrip = new LEDs(0,32);
+  public static boolean lightSet = false;
 
   //Controllers - Need to make a call on PS4 vs. XBox Controllers
   public static final PS4Controller controller0 = new PS4Controller(Constants.DRIVER_CONTROLLER_0);
@@ -95,6 +95,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    crane.setClaw(AutoCommands.clawPosition);
     drivetrain.m_drive.feed();
   }
 
@@ -109,10 +110,11 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    lightSet = false;
     CommandScheduler.getInstance().run();
     driver.getDriverConfig();
     coDriver.getCoDriverConfig();
-    ledStrip.teamColor();
+    if(!lightSet){ledStrip.teamColor();}
   }
 
   /** This function is called once when the robot is disabled. */
@@ -124,7 +126,6 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     HDD.updateStartupConfig();
     ledStrip.rainbow();
-    // Need LED Display Here
   }
 
   /** This function is called once when test mode is enabled. */

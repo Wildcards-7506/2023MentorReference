@@ -13,7 +13,6 @@ public class RyanController extends PlayerConfigBase{
         xMovement = Robot.controller0.getLeftY();
         turnMovement = Robot.controller0.getRightX();
         snap = Robot.controller0.getPOV();
-        NOX = Robot.controller0.getR1Button();
         turnSpeed = 0.7;
         driveSpeed = 1;
 
@@ -23,7 +22,6 @@ public class RyanController extends PlayerConfigBase{
         SmartDashboard.putNumber("xMove:", xMovement);
         SmartDashboard.putNumber("turnMove:", turnMovement);
         SmartDashboard.putNumber("snap:", snap);
-        SmartDashboard.putBoolean("NOX:", NOX);
     }
 
     //CODRIVER CONTROLS

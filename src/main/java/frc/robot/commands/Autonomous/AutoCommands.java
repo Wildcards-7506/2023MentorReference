@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
 
 public class AutoCommands {
+    public static double clawPosition = Constants.kClawClosed;
     //Returns a series of waypoints to the controller to run complex motion paths
     public static Command drivetrainMotion(Trajectory trajectory) {
     
@@ -74,7 +75,7 @@ public class AutoCommands {
             Robot.crane.setExtendPosition(Constants.kExtenderHi);
             Robot.drivetrain.m_drive.feed();
         }
-        Robot.crane.setClaw(true);
+        clawPosition = Constants.kClawOpen;
         while ( Math.abs(Robot.crane.getRotator() - Constants.kRotatorCollect) > 1 
                 & Math.abs(Robot.crane.getExtender() - Constants.kExtenderClosed) > 1){
             Robot.crane.setArmPosition(Constants.kRotatorCollect);
@@ -90,7 +91,7 @@ public class AutoCommands {
             Robot.crane.setExtendPosition(Constants.kExtenderClosed);
             Robot.drivetrain.m_drive.feed();
         }
-        Robot.crane.setClaw(false);
+        clawPosition = Constants.kClawClosed;
         while ( Math.abs(Robot.crane.getRotator() - Constants.kRotatorCollect) > 1 
                 & Math.abs(Robot.crane.getExtender() - Constants.kExtenderClosed) > 1){
             Robot.crane.setArmPosition(Constants.kRotatorCollect);

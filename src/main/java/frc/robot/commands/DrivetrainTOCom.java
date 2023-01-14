@@ -1,4 +1,5 @@
 package frc.robot.commands;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -30,20 +31,21 @@ public class DrivetrainTOCom extends CommandBase{
                 Robot.drivetrain.drive( PlayerConfigBase.fxMovement * PlayerConfigBase.fdriveSpeed, 
                                         PlayerConfigBase.fyMovement * PlayerConfigBase.fdriveSpeed, 
                                         PlayerConfigBase.fturnSpeed * PlayerConfigBase.fturnSpeed, 
-                                        false);
+                                        true);
+                SmartDashboard.putString("Drive Mode", "Mecanum SLOW");
             } else {
                 Robot.drivetrain.setDropWheels(0);
                 Robot.drivetrain.drive(xSpeed, ySpeed, turnSpeed, true);
+                SmartDashboard.putString("Drive Mode", "Mecanum FAST");
             }
         } else if (PlayerConfigBase.snap != -1){
             Robot.drivetrain.snap(PlayerConfigBase.snap);
-        } else if (PlayerConfigBase.NOX){
-            Robot.drivetrain.setDropWheels(Constants.DROP_WHEEL_DISTANCE);
-            Robot.drivetrain.drive(1,0,0,false);
+            SmartDashboard.putString("Drive Mode", "Mecanum SNAP");
         } else {
             //Tank Drive, Strafing Disabled
             Robot.drivetrain.setDropWheels(Constants.DROP_WHEEL_DISTANCE);
             Robot.drivetrain.drive(xSpeed, 0, turnSpeed, false);
+            SmartDashboard.putString("Drive Mode", "Tank");
         }
 
         prevX = xSpeed;

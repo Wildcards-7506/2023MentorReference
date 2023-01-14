@@ -72,4 +72,10 @@ public class HDD {
     public static void updateStartupConfig(){
         desiredMode = auto_chooser.getSelected();
     }
+
+    public static void updateHDD(){
+        Robot.crane.updateCrane();
+        Robot.drivetrain.updateDrivetrain();
+        
+    }
 }
