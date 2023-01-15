@@ -22,6 +22,11 @@ public class RyanController extends PlayerConfigBase{
         SmartDashboard.putNumber("xMove:", xMovement);
         SmartDashboard.putNumber("turnMove:", turnMovement);
         SmartDashboard.putNumber("snap:", snap);
+
+        //Cargo Signals
+        coneSignal = Robot.controller0.getTriangleButton();
+        cubeSignal = Robot.controller0.getSquareButton();
+        unlockLED = Robot.controller0.getCircleButton();
     }
 
     //CODRIVER CONTROLS

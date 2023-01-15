@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.LEDTOCom;
 
 public class LEDs extends SubsystemBase{
     public static Alliance teamColor;
@@ -20,6 +21,11 @@ public class LEDs extends SubsystemBase{
         m_led.setLength(bufferSize);
         m_led.setData(m_ledBuffer);
         m_led.start();
+    }
+
+    @Override
+    public void periodic(){
+        setDefaultCommand(new LEDTOCom());
     }
 
     public void update() {

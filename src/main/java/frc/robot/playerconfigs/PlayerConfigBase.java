@@ -22,6 +22,11 @@ public class PlayerConfigBase {
     //limelight
     public static boolean switchPipeline;
 
+    //LEDs
+    public static boolean coneSignal;
+    public static boolean cubeSignal;
+    public static boolean unlockLED;
+
     //Arm Control
     public static boolean groundPosition;
     public static boolean midPosition;

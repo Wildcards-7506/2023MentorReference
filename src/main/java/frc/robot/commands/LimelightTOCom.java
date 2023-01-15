@@ -21,16 +21,5 @@ public class LimelightTOCom extends CommandBase{
                 Robot.limelight.switchCameraMode();
             }
         }
-
-        if (Robot.limelight.getTV() != 0){
-            if(Robot.limelight.getTX() < 5){
-                Robot.ledStrip.solid(60, 255, 255);
-                Robot.lightSet = true;
-            } else{
-                Robot.ledStrip.solid(15, 255, 255);
-                Robot.lightSet = true;
-
-            }
-        }
     }
 }

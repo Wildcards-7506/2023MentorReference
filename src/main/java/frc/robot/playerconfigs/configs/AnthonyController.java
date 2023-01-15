@@ -17,6 +17,12 @@ public class AnthonyController extends PlayerConfigBase {
 
         //Drivetrain change
         modeSwitch = Robot.controller0.getR2Axis();
+
+        //Cargo Signals
+        coneSignal = Robot.controller0.getTriangleButton();
+        cubeSignal = Robot.controller0.getSquareButton();
+        unlockLED = Robot.controller0.getCircleButton();
+
     }
 
     //CODRIVER CONTROLS

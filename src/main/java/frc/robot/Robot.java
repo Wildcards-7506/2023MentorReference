@@ -110,11 +110,9 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    lightSet = false;
     CommandScheduler.getInstance().run();
     driver.getDriverConfig();
     coDriver.getCoDriverConfig();
-    if(!lightSet){ledStrip.teamColor();}
   }
 
   /** This function is called once when the robot is disabled. */
