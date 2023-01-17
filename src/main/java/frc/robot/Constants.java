@@ -62,6 +62,15 @@ public final class Constants {
         public static final double kPXController = 0.5;
         public static final double kPYController = 0.5;
         public static final double kPThetaController = 0.5;
+        
+        // Example value only - as above, this must be tuned for your drive!
+        public static final double kPFrontLeftVel = 0.5;
+        public static final double kPRearLeftVel = 0.5;
+        public static final double kPFrontRightVel = 0.5;
+        public static final double kPRearRightVel = 0.5;
+        public static final double ffKS = 1;
+        public static final double ffKV = 0.8;
+        public static final double ffKA = 0.15;
 
         // Distance between centers of right and left wheels on robot
         public static final double kTrackwidthMeters = Units.inchesToMeters(19.25);
@@ -90,14 +99,7 @@ public final class Constants {
                 .setKinematics(kinematics);
 
         public static final SimpleMotorFeedforward kFeedforward =
-        new SimpleMotorFeedforward(1, 0.8, 0.15);
-
-        // Example value only - as above, this must be tuned for your drive!
-        public static final double kPFrontLeftVel = 0.5;
-        public static final double kPRearLeftVel = 0.5;
-        public static final double kPFrontRightVel = 0.5;
-        public static final double kPRearRightVel = 0.5;
-
+        new SimpleMotorFeedforward(ffKS, ffKV, ffKA);
         //Speed Variables
         public static final double RAMP_RATE = 0.01;
         public static final int DROP_WHEEL_DISTANCE = 16;
@@ -115,13 +117,14 @@ public final class Constants {
         public static final double kRotatorMid = 230.0;
         public static final double kRotatorHi = 200.0;
         public static final double kRotatorCollect = 90.0;
+        public static final double kRotatorExtendLimit = 10.0;
         public static final double kRotatorClosed = 5.0;
 
         public static final double kExtenderGround = 24.0;
         public static final double kExtenderMid = 38.0;
         public static final double kExtenderHi = 48.0;
         public static final double kExtenderCollect = 5.0;
-        public static final double kExtenderClosed = 0.0;
+        public static final double kExtenderClosed = 1.0;
         
         public static final double kClawOpen = 85.0;
         public static final double kClawClosed = 0.0;
