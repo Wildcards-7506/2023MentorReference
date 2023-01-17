@@ -4,7 +4,6 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.kinematics.MecanumDriveMotorVoltages;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
@@ -62,9 +61,9 @@ public class AutoCommands {
     public static void postAlign(){
         while(Robot.limelight.getTV() != 0 & Robot.limelight.getTX() > 2.0){
             double direction = 0.2 * Robot.limelight.getTX()/Math.abs(Robot.limelight.getTX());
-            Robot.drivetrain.setDriveMotorControllersVolts(new MecanumDriveMotorVoltages(direction, -direction, -direction, direction));
+            Robot.drivetrain.drive(0,direction,0,true);
         }
-        Robot.drivetrain.setDriveMotorControllersVolts(new MecanumDriveMotorVoltages(0, 0, 0, 0));
+        Robot.drivetrain.drive(0,0,0,true);
         Robot.drivetrain.m_drive.feed();
     }
 
