@@ -12,6 +12,7 @@ public class CraneTOCom extends CommandBase{
 
     @Override
     public void execute(){
+        //COLLECTION
         if (PlayerConfigBase.collectPosition){
             Robot.crane.setArmPosition(Constants.kRotatorCollect);
             Robot.crane.setExtendPosition(Constants.kExtenderCollect);
@@ -21,12 +22,21 @@ public class CraneTOCom extends CommandBase{
         } else if (PlayerConfigBase.midPosition){
             Robot.crane.setArmPosition(Constants.kRotatorMid);
             Robot.crane.setExtendPosition(Constants.kExtenderMid);
+            Robot.drivetrain.targetAlign();
         } else if (PlayerConfigBase.hiPosition){
             Robot.crane.setArmPosition(Constants.kRotatorHi);
             Robot.crane.setExtendPosition(Constants.kExtenderHi);
-        } else if (Robot.crane.getExtender() > Constants.kExtenderClosed){
-            Robot.crane.setArmPosition(Constants.kRotatorExtendLimit);
+            Robot.drivetrain.targetAlign();
+        //SAFETY
+            //Ground to storage - Avoid frame collision
+        } else if (Robot.crane.getRotator() < Constants.kRotatorCollect & Robot.crane.getExtender() > Constants.kExtenderClosed){
+            Robot.crane.setArmPosition(Constants.kRotatorGround);
             Robot.crane.setExtendPosition(Constants.kExtenderClosed);
+            //Scoring to storage - Height Limit
+        } else if (Robot.crane.getRotator() > Constants.kRotatorCollect & Robot.crane.getExtender() > Constants.kExtenderHeightLimit){
+            Robot.crane.setArmPosition(Constants.kRotatorHi);
+            Robot.crane.setExtendPosition(Constants.kExtenderHeightLimit);    
+        //STORAGE
         } else {
             Robot.crane.setArmPosition(Constants.kRotatorClosed);
             Robot.crane.setExtendPosition(Constants.kExtenderClosed);

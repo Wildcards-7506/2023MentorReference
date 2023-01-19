@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.playerconfigs.PlayerConfigBase;
@@ -21,12 +20,13 @@ public class LEDTOCom extends CommandBase{
                 Robot.ledStrip.solid(15, 255, 255);
             }
             locked = false;
-            SmartDashboard.putString("LED State", "Limelight");
         } else if (PlayerConfigBase.coneSignal){
             Robot.ledStrip.solid(30, 255, 255);
+            if(Robot.limelight.targetArea != 0.1){Robot.limelight.switchCameraMode();}
             locked = true;
         } else if (PlayerConfigBase.cubeSignal){
             Robot.ledStrip.solid(150, 255, 255);
+            if(Robot.limelight.targetArea != 0.5){Robot.limelight.switchCameraMode();}
             locked = true;
         } else if (PlayerConfigBase.unlockLED){
             locked = false;
