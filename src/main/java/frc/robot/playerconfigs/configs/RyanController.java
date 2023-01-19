@@ -1,6 +1,5 @@
 package frc.robot.playerconfigs.configs;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.playerconfigs.PlayerConfigBase;
 
@@ -12,16 +11,13 @@ public class RyanController extends PlayerConfigBase{
         yMovement = Robot.controller0.getLeftX();
         xMovement = Robot.controller0.getLeftY();
         turnMovement = Robot.controller0.getRightX();
-        snap = Robot.controller0.getPOV();
+        snap0 = Robot.controller0.getPOV() == 0;
+        snap180 = Robot.controller0.getPOV() == 180;
         turnSpeed = 0.7;
         driveSpeed = 1;
 
         //Drivetrain change
         modeSwitch = Robot.controller0.getR2Axis();
-        SmartDashboard.putNumber("yMove:", yMovement);
-        SmartDashboard.putNumber("xMove:", xMovement);
-        SmartDashboard.putNumber("turnMove:", turnMovement);
-        SmartDashboard.putNumber("snap:", snap);
 
         //Cargo Signals
         coneSignal = Robot.controller0.getTriangleButton();

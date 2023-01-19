@@ -58,13 +58,11 @@ public class AutoCommands {
         }
     }
 
-    public static void postAlign(){
+    public static void autoAlign(){
         while(Robot.limelight.getTV() != 0 & Robot.limelight.getTX() > 2.0){
-            double direction = 0.2 * Robot.limelight.getTX()/Math.abs(Robot.limelight.getTX());
-            Robot.drivetrain.drive(0,direction,0,true);
+            Robot.drivetrain.targetAlign();
         }
         Robot.drivetrain.drive(0,0,0,true);
-        Robot.drivetrain.m_drive.feed();
     }
 
     public static void autoScore(){

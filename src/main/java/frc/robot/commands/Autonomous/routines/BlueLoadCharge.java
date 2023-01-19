@@ -8,11 +8,11 @@ import frc.robot.Robot;
 import frc.robot.commands.autonomous.AutoCommands;
 import frc.robot.commands.autonomous.AutoTrajectoryReader;
 
-public class AutoRoutineBlueLoadOut extends SequentialCommandGroup {
+public class BlueLoadCharge extends SequentialCommandGroup {
   // required PathWeaver file paths
-  String file_path_a = "paths/BlueLoadOut/BLA.wpilib.json";
-  String file_path_b = "paths/BlueLoadOut/BLB.wpilib.json";
-  String file_path_c = "paths/BlueLoadOut/BLOC.wpilib.json";
+  String file_path_a = "paths/BlueLoadCharge/BLA.wpilib.json";
+  String file_path_b = "paths/BlueLoadCharge/BLB.wpilib.json";
+  String file_path_c = "paths/BlueLoadCharge/BLCC.wpilib.json";
   
   // trajectories
   private Trajectory traj_path_a = AutoTrajectoryReader.generateTrajectoryFromFile(file_path_a);
@@ -24,16 +24,19 @@ public class AutoRoutineBlueLoadOut extends SequentialCommandGroup {
   private Command movementB = AutoCommands.drivetrainMotion(traj_path_b);
   private Command movementC = AutoCommands.drivetrainMotion(traj_path_c);
 
-  public AutoRoutineBlueLoadOut(){
+  public BlueLoadCharge(){
     
     addCommands(
-        new InstantCommand(AutoCommands::postAlign, Robot.drivetrain),
+        new InstantCommand(AutoCommands::autoAlign, Robot.drivetrain),
         new InstantCommand(AutoCommands::autoScore, Robot.crane),
         movementA,
         new InstantCommand(AutoCommands::autoCollect, Robot.crane),
         movementB,
+        new InstantCommand(Robot.limelight::switchCameraMode, Robot.limelight),
+        new InstantCommand(AutoCommands::autoAlign, Robot.drivetrain),
         new InstantCommand(AutoCommands::autoScore, Robot.crane),
-        movementC
+        movementC,
+        new InstantCommand(AutoCommands::chargeAlign, Robot.drivetrain)
       );
   }
 } 

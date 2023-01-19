@@ -11,7 +11,8 @@ public class AnthonyController extends PlayerConfigBase {
         yMovement = Robot.controller0.getLeftX();
         xMovement = Robot.controller0.getLeftY();
         turnMovement = Robot.controller0.getRightX();
-        snap = Robot.controller0.getPOV();
+        snap0 = Robot.controller0.getPOV() == 0;
+        snap180 = Robot.controller0.getPOV() == 180;
         turnSpeed = 0.7;
         driveSpeed = 1;
 
@@ -22,7 +23,6 @@ public class AnthonyController extends PlayerConfigBase {
         coneSignal = Robot.controller0.getTriangleButton();
         cubeSignal = Robot.controller0.getSquareButton();
         unlockLED = Robot.controller0.getCircleButton();
-
     }
 
     //CODRIVER CONTROLS

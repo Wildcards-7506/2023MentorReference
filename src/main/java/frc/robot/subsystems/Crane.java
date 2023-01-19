@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -8,6 +7,7 @@ import frc.robot.commands.CraneTOCom;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -18,8 +18,8 @@ public class Crane extends SubsystemBase{
     public RelativeEncoder m_rotateEncoder;
     public RelativeEncoder m_extendEncoder; 
     public RelativeEncoder m_clawEncoder;
-    private PIDController pidRot = new PIDController(Constants.kRotatorKP, 0, 0);
-    private PIDController pidClaw = new PIDController(Constants.kClawKP, 0, 0);
+    private SparkMaxPIDController pidRot;
+    private SparkMaxPIDController pidClaw;
 
     public Crane (int rotator, int extender, int claw){
         craneRotator = new CANSparkMax(rotator, MotorType.kBrushless);
@@ -48,6 +48,22 @@ public class Crane extends SubsystemBase{
         m_extendEncoder = craneExtender.getEncoder();
         m_clawEncoder = clawManipulator.getEncoder();
 
+        pidRot = craneRotator.getPIDController();
+        pidClaw = clawManipulator.getPIDController();
+
+        pidRot.setP(Constants.kRotatorKP);
+        pidRot.setI(0);
+        pidRot.setD(0);
+        pidRot.setIZone(0);
+        pidRot.setFF(0);
+        pidRot.setOutputRange(0, Constants.kRotatorMid);
+        pidClaw.setP(Constants.kClawKP);
+        pidClaw.setI(0);
+        pidClaw.setD(0);
+        pidClaw.setIZone(0);
+        pidClaw.setFF(0);
+        pidClaw.setOutputRange(0, Constants.kClawClosed);
+
         m_rotateEncoder.setPositionConversionFactor(Constants.kRotateEncoderDistancePerPulse);
         m_extendEncoder.setPositionConversionFactor(Constants.kExtendEncoderDistancePerPulse);
         m_clawEncoder.setPositionConversionFactor(Constants.kClawEncoderDistancePerPulse);
@@ -64,9 +80,8 @@ public class Crane extends SubsystemBase{
         SmartDashboard.putNumber("Claw", m_clawEncoder.getPosition());
     }
 
-    public void setArmPosition(double setting){
-        double setpoint = pidRot.calculate(getRotator(), setting);
-        craneRotator.setVoltage(12*setpoint);
+    public void setArmPosition(double setpoint){
+        pidRot.setReference(setpoint, CANSparkMax.ControlType.kPosition);
     }
 
     public void setExtendPosition(double setting){
@@ -77,12 +92,7 @@ public class Crane extends SubsystemBase{
     }
 
     public void setClaw(double setpoint){
-        double voltage = pidClaw.calculate(getClaw(), setpoint);
-        if (voltage > 0.5){
-            craneExtender.setVoltage(voltage);
-        } else {
-            clawManipulator.setVoltage(0);
-        }
+        pidClaw.setReference(setpoint, CANSparkMax.ControlType.kPosition);
     }
 
     public double getRotator(){

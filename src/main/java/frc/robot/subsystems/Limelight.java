@@ -9,14 +9,14 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight extends SubsystemBase {
 
-    public double distance;
-    public double offset;
+    public double targetArea = 0.1;
 
     private NetworkTable table;
     private NetworkTableEntry tx;
     private NetworkTableEntry ta;
     private NetworkTableEntry tv;
     private NetworkTableEntry ty;
+    
 
     //The following five methods retrieve and make data available from the Limelight Network Table
     public void updateData() {
@@ -48,10 +48,11 @@ public class Limelight extends SubsystemBase {
         return tv.getDouble(0.0);
     }
 
-    //Switches from thresholding mode to pure camera mode
+    //Switches from Retroreflective mode to AprilTag mode
     public void switchCameraMode(){
         table.getEntry("camMode").setNumber(table.getEntry("camMode").getDouble(0.0) == 0 ? 1 : 0);
         table.getEntry("ledMode").setNumber(table.getEntry("ledMode").getDouble(0.0) == 0 ? 3 : 0);
+        targetArea = (targetArea == 0.1 ? 0.5 : 0.1);
     }
 
     //Every scheduler cycle, we pass our XBox controls so we can control the limelight.

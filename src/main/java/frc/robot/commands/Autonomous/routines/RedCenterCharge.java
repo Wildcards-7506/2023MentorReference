@@ -8,7 +8,7 @@ import frc.robot.Robot;
 import frc.robot.commands.autonomous.AutoCommands;
 import frc.robot.commands.autonomous.AutoTrajectoryReader;
 
-public class AutoRoutineRedCenterCharge extends SequentialCommandGroup {
+public class RedCenterCharge extends SequentialCommandGroup {
   // required PathWeaver file paths
   String file_path_a = "paths/RedCenter/RCA.wpilib.json";
   
@@ -18,10 +18,10 @@ public class AutoRoutineRedCenterCharge extends SequentialCommandGroup {
   //Commands
   private Command movementA = AutoCommands.drivetrainMotion(traj_path_a);
 
-  public AutoRoutineRedCenterCharge(){
+  public RedCenterCharge(){
     
     addCommands(
-        new InstantCommand(AutoCommands::postAlign, Robot.drivetrain),
+        new InstantCommand(AutoCommands::autoAlign, Robot.drivetrain),
         new InstantCommand(AutoCommands::autoScore, Robot.crane),
         movementA,
         new InstantCommand(AutoCommands::chargeAlign, Robot.drivetrain)

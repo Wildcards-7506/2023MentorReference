@@ -53,7 +53,7 @@ public final class Constants {
         public static final int RIGHT_JOYSTICK_BUTTON = 12;
 
     //Drive Constants   
-        public static final int kDrivetrainCurrentLimit = 10;
+        public static final int kDrivetrainCurrentLimit = 30;
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
@@ -63,7 +63,6 @@ public final class Constants {
         public static final double kPYController = 0.5;
         public static final double kPThetaController = 0.5;
         
-        // Example value only - as above, this must be tuned for your drive!
         public static final double kPFrontLeftVel = 0.5;
         public static final double kPRearLeftVel = 0.5;
         public static final double kPFrontRightVel = 0.5;
@@ -73,9 +72,9 @@ public final class Constants {
         public static final double ffKA = 0.15;
 
         // Distance between centers of right and left wheels on robot
-        public static final double kTrackwidthMeters = Units.inchesToMeters(19.25);
+        public static final double kTrackwidthMeters = Units.inchesToMeters(20.176);
         // Distance between centers of front and back wheels on robot
-        public static final double kWheelBase = 0.7;
+        public static final double kWheelBase = Units.inchesToMeters(21.911);;
         //Current Gear ratio is 9:1 - THIS MAY CHANGE
         public static final double driveTrainGearRatio = 1/9;
         public static final double kEncoderDistancePerPulse = driveTrainGearRatio * Math.PI * Units.inchesToMeters(8);
@@ -113,11 +112,10 @@ public final class Constants {
         public static final double kClawEncoderDistancePerPulse = 1.0;
 
         public static final double kRotatorKP = 1.0;
-        public static final double kRotatorGround = 300.0;
+        public static final double kRotatorGround = 10.0;
         public static final double kRotatorMid = 230.0;
         public static final double kRotatorHi = 200.0;
         public static final double kRotatorCollect = 90.0;
-        public static final double kRotatorExtendLimit = 10.0;
         public static final double kRotatorClosed = 5.0;
 
         public static final double kExtenderGround = 24.0;
@@ -125,6 +123,7 @@ public final class Constants {
         public static final double kExtenderHi = 48.0;
         public static final double kExtenderCollect = 5.0;
         public static final double kExtenderClosed = 1.0;
+        public static final double kExtenderHeightLimit = 1.0;
         
         public static final double kClawOpen = 85.0;
         public static final double kClawClosed = 0.0;

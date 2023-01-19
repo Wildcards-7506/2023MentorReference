@@ -8,7 +8,8 @@ public class PlayerConfigBase {
     public static double turnMovement;
     public static double turnSpeed;
     public static double driveSpeed;
-    public static int snap;
+    public static boolean snap0;
+    public static boolean snap180;
 
     public static double fineControl;
     public static double fxMovement;

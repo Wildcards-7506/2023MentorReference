@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.HDD;
+import frc.robot.Robot;
 import frc.robot.commands.DrivetrainTOCom;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -168,6 +169,18 @@ public class Drivetrain extends SubsystemBase{
                 setpoint, 
                 setpoint, 
                 setpoint));
+        m_drive.feed();
+    }
+
+    public void targetAlign(){
+        double yDirection = 0;
+        double xDirection = 0;
+        if(Math.abs(Robot.limelight.getTX()) > 2){
+            yDirection = 0.2 * Robot.limelight.getTX()/Math.abs(Robot.limelight.getTX());
+        } else if (Robot.limelight.getTX() < Robot.limelight.targetArea){
+            xDirection = 0.2;
+        }
+        drive(xDirection,yDirection,0,true);
         m_drive.feed();
     }
 

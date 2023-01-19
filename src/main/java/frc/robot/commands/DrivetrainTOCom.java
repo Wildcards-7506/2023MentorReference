@@ -25,9 +25,15 @@ public class DrivetrainTOCom extends CommandBase{
         xSpeed = Constants.RAMP_RATE * (PlayerConfigBase.driveSpeed * PlayerConfigBase.xMovement) + (1-Constants.RAMP_RATE) * prevX;
         ySpeed = Constants.RAMP_RATE * (PlayerConfigBase.driveSpeed * PlayerConfigBase.yMovement) + (1-Constants.RAMP_RATE) * prevY;
 
-        if(driveMode & PlayerConfigBase.snap == -1){
-            //Mecanum Drive, Strafing Enabled
-            if(PlayerConfigBase.fineControl > 0.5){
+        //Mecanum Drive, Strafing Enabled
+        if(driveMode){
+            if (PlayerConfigBase.snap0){
+                Robot.drivetrain.snap(0);
+                SmartDashboard.putString("Drive Mode", "Mecanum SNAP 0");
+            } else if (PlayerConfigBase.snap180){
+                Robot.drivetrain.snap(180);
+                SmartDashboard.putString("Drive Mode", "Mecanum SNAP 180");   
+            } else if(PlayerConfigBase.groundPosition || PlayerConfigBase.hiPosition || PlayerConfigBase.midPosition || PlayerConfigBase.collectPosition){
                 Robot.drivetrain.drive( PlayerConfigBase.fxMovement * PlayerConfigBase.fdriveSpeed, 
                                         PlayerConfigBase.fyMovement * PlayerConfigBase.fdriveSpeed, 
                                         PlayerConfigBase.fturnSpeed * PlayerConfigBase.fturnSpeed, 
@@ -38,9 +44,6 @@ public class DrivetrainTOCom extends CommandBase{
                 Robot.drivetrain.drive(xSpeed, ySpeed, turnSpeed, true);
                 SmartDashboard.putString("Drive Mode", "Mecanum FAST");
             }
-        } else if (PlayerConfigBase.snap != -1){
-            Robot.drivetrain.snap(PlayerConfigBase.snap);
-            SmartDashboard.putString("Drive Mode", "Mecanum SNAP");
         } else {
             //Tank Drive, Strafing Disabled
             Robot.drivetrain.setDropWheels(Constants.DROP_WHEEL_DISTANCE);

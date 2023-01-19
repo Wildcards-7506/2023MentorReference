@@ -8,7 +8,7 @@ import frc.robot.Robot;
 import frc.robot.commands.autonomous.AutoCommands;
 import frc.robot.commands.autonomous.AutoTrajectoryReader;
 
-public class AutoRoutineBlueCenterCharge extends SequentialCommandGroup {
+public class BlueCenterCharge extends SequentialCommandGroup {
   // required PathWeaver file paths
   String file_path_a = "paths/BlueCenter/BCA.wpilib.json";
   
@@ -18,10 +18,10 @@ public class AutoRoutineBlueCenterCharge extends SequentialCommandGroup {
   //Commands
   private Command movementA = AutoCommands.drivetrainMotion(traj_path_a);
 
-  public AutoRoutineBlueCenterCharge(){
+  public BlueCenterCharge(){
     
     addCommands(
-        new InstantCommand(AutoCommands::postAlign, Robot.drivetrain),
+        new InstantCommand(AutoCommands::autoAlign, Robot.drivetrain),
         new InstantCommand(AutoCommands::autoScore, Robot.crane),
         movementA,
         new InstantCommand(AutoCommands::chargeAlign, Robot.drivetrain)

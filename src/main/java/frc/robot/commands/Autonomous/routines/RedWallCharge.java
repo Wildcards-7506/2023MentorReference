@@ -8,11 +8,11 @@ import frc.robot.Robot;
 import frc.robot.commands.autonomous.AutoCommands;
 import frc.robot.commands.autonomous.AutoTrajectoryReader;
 
-public class AutoRoutineBlueWallCharge extends SequentialCommandGroup {
+public class RedWallCharge extends SequentialCommandGroup {
   // required PathWeaver file paths
-  String file_path_a = "paths/BlueWallCharge/BWA.wpilib.json";
-  String file_path_b = "paths/BlueWallCharge/BWB.wpilib.json";
-  String file_path_c = "paths/BlueWallCharge/BWCC.wpilib.json";
+  String file_path_a = "paths/RedWallCharge/RWA.wpilib.json";
+  String file_path_b = "paths/RedWallCharge/RWB.wpilib.json";
+  String file_path_c = "paths/RedWallCharge/RWCC.wpilib.json";
   
   // trajectories
   private Trajectory traj_path_a = AutoTrajectoryReader.generateTrajectoryFromFile(file_path_a);
@@ -24,14 +24,16 @@ public class AutoRoutineBlueWallCharge extends SequentialCommandGroup {
   private Command movementB = AutoCommands.drivetrainMotion(traj_path_b);
   private Command movementC = AutoCommands.drivetrainMotion(traj_path_c);
 
-  public AutoRoutineBlueWallCharge(){
+  public RedWallCharge(){
     
     addCommands(
-        new InstantCommand(AutoCommands::postAlign, Robot.drivetrain),
+        new InstantCommand(AutoCommands::autoAlign, Robot.drivetrain),
         new InstantCommand(AutoCommands::autoScore, Robot.crane),
         movementA,
         new InstantCommand(AutoCommands::autoCollect, Robot.crane),
         movementB,
+        new InstantCommand(Robot.limelight::switchCameraMode, Robot.limelight),
+        new InstantCommand(AutoCommands::autoAlign, Robot.drivetrain),
         new InstantCommand(AutoCommands::autoScore, Robot.crane),
         movementC,
         new InstantCommand(AutoCommands::chargeAlign, Robot.drivetrain)

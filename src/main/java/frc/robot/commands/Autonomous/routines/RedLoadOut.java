@@ -8,11 +8,11 @@ import frc.robot.Robot;
 import frc.robot.commands.autonomous.AutoCommands;
 import frc.robot.commands.autonomous.AutoTrajectoryReader;
 
-public class AutoRoutineRedLoadCharge extends SequentialCommandGroup {
+public class RedLoadOut extends SequentialCommandGroup {
   // required PathWeaver file paths
-  String file_path_a = "paths/RedLoadCharge/RLA.wpilib.json";
-  String file_path_b = "paths/RedLoadCharge/RLB.wpilib.json";
-  String file_path_c = "paths/RedLoadCharge/RLCC.wpilib.json";
+  String file_path_a = "paths/RedLoadOut/RLA.wpilib.json";
+  String file_path_b = "paths/RedLoadOut/RLB.wpilib.json";
+  String file_path_c = "paths/RedLoadOut/RLOC.wpilib.json";
   
   // trajectories
   private Trajectory traj_path_a = AutoTrajectoryReader.generateTrajectoryFromFile(file_path_a);
@@ -24,17 +24,18 @@ public class AutoRoutineRedLoadCharge extends SequentialCommandGroup {
   private Command movementB = AutoCommands.drivetrainMotion(traj_path_b);
   private Command movementC = AutoCommands.drivetrainMotion(traj_path_c);
 
-  public AutoRoutineRedLoadCharge(){
+  public RedLoadOut(){
     
     addCommands(
-        new InstantCommand(AutoCommands::postAlign, Robot.drivetrain),
+        new InstantCommand(AutoCommands::autoAlign, Robot.drivetrain),
         new InstantCommand(AutoCommands::autoScore, Robot.crane),
         movementA,
         new InstantCommand(AutoCommands::autoCollect, Robot.crane),
         movementB,
+        new InstantCommand(Robot.limelight::switchCameraMode, Robot.limelight),
+        new InstantCommand(AutoCommands::autoAlign, Robot.drivetrain),
         new InstantCommand(AutoCommands::autoScore, Robot.crane),
-        movementC,
-        new InstantCommand(AutoCommands::chargeAlign, Robot.drivetrain)
+        movementC
       );
   }
 } 
