@@ -95,6 +95,10 @@ public class Crane extends SubsystemBase{
         pidClaw.setReference(setpoint, CANSparkMax.ControlType.kPosition);
     }
 
+    public void setRoller(double setpoint){
+        clawManipulator.setVoltage(setpoint);
+    }
+
     public double getRotator(){
         return m_rotateEncoder.getPosition();
     }

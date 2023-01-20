@@ -39,6 +39,7 @@ public class MentorController extends PlayerConfigBase{
 
         //Claw Operation
         openClaw = Robot.controller1.getRightBumper();
+        //closeClaw = Robot.controller1.getRightTriggerAxis() > 0.5;
 
         //Fine Drivetrain Control
         fineControl = Robot.controller1.getRightTriggerAxis();

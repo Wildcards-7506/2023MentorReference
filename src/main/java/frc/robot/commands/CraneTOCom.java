@@ -44,6 +44,9 @@ public class CraneTOCom extends CommandBase{
         
         if (PlayerConfigBase.openClaw){
             Robot.crane.setClaw(Constants.kClawOpen);
+        //     Robot.crane.setRoller(8);
+        // } else if (PlayerConfigBase.closeClaw){
+        //     Robot.crane.setRoller(-8);
         } else {
             Robot.crane.setClaw(Constants.kClawClosed);
         }
