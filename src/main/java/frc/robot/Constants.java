@@ -53,42 +53,47 @@ public final class Constants {
         public static final int RIGHT_JOYSTICK_BUTTON = 12;
 
     //Drive Constants   
+
+        //Speed and Power Limits
         public static final int kDrivetrainCurrentLimit = 30;
+        public static final double kRampRate = 0.01;
+        public static final int kDropWheelDistance = 16;
+        public static final double kAlignmentSpeed = 0.2;
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
+        //Movement Controller Constants
         public static final double kPXController = 0.5;
         public static final double kPYController = 0.5;
         public static final double kPThetaController = 0.5;
-        
-        public static final double kPFrontLeftVel = 0.5;
-        public static final double kPRearLeftVel = 0.5;
-        public static final double kPFrontRightVel = 0.5;
-        public static final double kPRearRightVel = 0.5;
         public static final double ffKS = 1;
         public static final double ffKV = 0.8;
         public static final double ffKA = 0.15;
 
-        // Distance between centers of right and left wheels on robot
+        //Wheel Controller Constants
+        public static final double kPFrontLeftVel = 0.5;
+        public static final double kPRearLeftVel = 0.5;
+        public static final double kPFrontRightVel = 0.5;
+        public static final double kPRearRightVel = 0.5;
+        
+        //Robot Size Parameters
         public static final double kTrackwidthMeters = Units.inchesToMeters(20.176);
-        // Distance between centers of front and back wheels on robot
-        public static final double kWheelBase = Units.inchesToMeters(21.911);;
-        //Current Gear ratio is 9:1 - THIS MAY CHANGE
+        public static final double kTrackLengthMeters = Units.inchesToMeters(21.911);;
         public static final double driveTrainGearRatio = 1/9;
         public static final double kEncoderDistancePerPulse = driveTrainGearRatio * Math.PI * Units.inchesToMeters(8);
 
-        // Constraint for the motion profilied robot angle controller
+        // Robot Movement Profiles
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
 
         public static MecanumDriveKinematics kinematics = new MecanumDriveKinematics(
-            new Translation2d(kWheelBase / 2, kTrackwidthMeters / 2),
-            new Translation2d(kWheelBase / 2, -kTrackwidthMeters / 2),
-            new Translation2d(-kWheelBase / 2, kTrackwidthMeters / 2),
-            new Translation2d(-kWheelBase / 2, -kTrackwidthMeters / 2));
+            new Translation2d(kTrackLengthMeters / 2, kTrackwidthMeters / 2),
+            new Translation2d(kTrackLengthMeters / 2, -kTrackwidthMeters / 2),
+            new Translation2d(-kTrackLengthMeters / 2, kTrackwidthMeters / 2),
+            new Translation2d(-kTrackLengthMeters / 2, -kTrackwidthMeters / 2));
 
         public static final  TrajectoryConfig kconfig =  
             new TrajectoryConfig(
@@ -99,33 +104,29 @@ public final class Constants {
 
         public static final SimpleMotorFeedforward kFeedforward =
         new SimpleMotorFeedforward(ffKS, ffKV, ffKA);
-        //Speed Variables
-        public static final double RAMP_RATE = 0.01;
-        public static final int DROP_WHEEL_DISTANCE = 16;
 
     //Crane Constants
-        public static final int kCraneCurrentLimit = 10;
-        public static final int kExtenderCurrentLimit = 10;
-        public static final int kClawCurrentLimit = 10;
-        public static final double kRotateEncoderDistancePerPulse = 1/125 * 360;
-        public static final double kExtendEncoderDistancePerPulse = 0.125;
-        public static final double kClawEncoderDistancePerPulse = 1.0;
-
+        public static final int kRotateCurrentLimit = 30;
+        public static final double kRotateEncoderDistancePerPulse = 1/625 * 360;
         public static final double kRotatorKP = 1.0;
         public static final double kRotatorGround = 10.0;
-        public static final double kRotatorMid = 230.0;
-        public static final double kRotatorHi = 200.0;
-        public static final double kRotatorCollect = 90.0;
-        public static final double kRotatorClosed = 5.0;
+        public static final double kRotatorHi = 210.0;
+        public static final double kRotatorMid = 220.0;
+        public static final double kRotatorCollect = 60.0;
+        public static final double kRotatorClosed = 0.0;
 
+        public static final int kExtenderCurrentLimit = 30;
+        public static final double kExtendEncoderDistancePerPulse = 0.125;
         public static final double kExtenderGround = 24.0;
-        public static final double kExtenderMid = 38.0;
-        public static final double kExtenderHi = 48.0;
-        public static final double kExtenderCollect = 5.0;
-        public static final double kExtenderClosed = 1.0;
-        public static final double kExtenderHeightLimit = 1.0;
+        public static final double kExtenderMid = 2.5;
+        public static final double kExtenderHi = 20.0;
+        public static final double kExtenderCollect = 12.0;
+        public static final double kExtenderClosed = 0.0;
+        public static final double kExtenderHeightLimit = 20.0;
         
+        public static final int kClawCurrentLimit = 10;
+        public static final double kClawEncoderDistancePerPulse = 1/125 * 360;
+        public static final double kClawKP = 1.0;
         public static final double kClawOpen = 85.0;
         public static final double kClawClosed = 0.0;
-        public static final double kClawKP = 1.0;
 }

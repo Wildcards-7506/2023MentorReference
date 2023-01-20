@@ -40,7 +40,7 @@ public class Crane extends SubsystemBase{
         clawManipulator.setSoftLimit(SoftLimitDirection.kForward, 90);
         clawManipulator.setSoftLimit(SoftLimitDirection.kReverse, 0);
 
-        craneRotator.setSmartCurrentLimit(Constants.kCraneCurrentLimit);
+        craneRotator.setSmartCurrentLimit(Constants.kRotateCurrentLimit);
         craneExtender.setSmartCurrentLimit(Constants.kExtenderCurrentLimit);
         clawManipulator.setSmartCurrentLimit(Constants.kClawCurrentLimit);
 
