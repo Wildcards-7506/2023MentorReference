@@ -21,9 +21,9 @@ public class DrivetrainTOCom extends CommandBase{
 
     @Override
     public void execute(){
-        turnSpeed = Constants.RAMP_RATE * (PlayerConfigBase.turnMovement * PlayerConfigBase.turnSpeed) + (1-Constants.RAMP_RATE) * prevTurn;
-        xSpeed = Constants.RAMP_RATE * (PlayerConfigBase.driveSpeed * PlayerConfigBase.xMovement) + (1-Constants.RAMP_RATE) * prevX;
-        ySpeed = Constants.RAMP_RATE * (PlayerConfigBase.driveSpeed * PlayerConfigBase.yMovement) + (1-Constants.RAMP_RATE) * prevY;
+        turnSpeed = Constants.kRampRate * (PlayerConfigBase.turnMovement * PlayerConfigBase.turnSpeed) + (1-Constants.kRampRate) * prevTurn;
+        xSpeed = Constants.kRampRate * (PlayerConfigBase.driveSpeed * PlayerConfigBase.xMovement) + (1-Constants.kRampRate) * prevX;
+        ySpeed = Constants.kRampRate * (PlayerConfigBase.driveSpeed * PlayerConfigBase.yMovement) + (1-Constants.kRampRate) * prevY;
 
         //Mecanum Drive, Strafing Enabled
         if(driveMode){
@@ -46,7 +46,7 @@ public class DrivetrainTOCom extends CommandBase{
             }
         } else {
             //Tank Drive, Strafing Disabled
-            Robot.drivetrain.setDropWheels(Constants.DROP_WHEEL_DISTANCE);
+            Robot.drivetrain.setDropWheels(Constants.kDropWheelDistance);
             Robot.drivetrain.drive(xSpeed, 0, turnSpeed, false);
             SmartDashboard.putString("Drive Mode", "Tank");
         }

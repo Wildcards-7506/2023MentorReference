@@ -46,7 +46,7 @@ public class AutoCommands {
       }
 
     public static double getPitch(){
-        return 1;//Robot.drivetrain.gyro.getPitch();
+        return Robot.drivetrain.gyro.getPitch();
     }
 
     //need a better way than while loops here

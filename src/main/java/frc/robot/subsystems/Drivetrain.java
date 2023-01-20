@@ -12,9 +12,9 @@ import edu.wpi.first.math.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.AnalogGyro;
-//import edu.wpi.first.wpilibj.SerialPort;
-//import com.kauailabs.navx.frc.AHRS;
+//import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.SerialPort;
+import com.kauailabs.navx.frc.AHRS;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -36,8 +36,8 @@ public class Drivetrain extends SubsystemBase{
 
     public final MecanumDrive m_drive;
 
-    //public AHRS gyro = new AHRS(SerialPort.Port.kUSB);
-    public AnalogGyro gyro = new AnalogGyro(1);
+    public AHRS gyro = new AHRS(SerialPort.Port.kUSB);
+    //public AnalogGyro gyro = new AnalogGyro(1);
 
     public MecanumDriveOdometry odometry;
     
@@ -176,9 +176,9 @@ public class Drivetrain extends SubsystemBase{
         double yDirection = 0;
         double xDirection = 0;
         if(Math.abs(Robot.limelight.getTX()) > 2){
-            yDirection = 0.2 * Robot.limelight.getTX()/Math.abs(Robot.limelight.getTX());
+            yDirection = Constants.kAlignmentSpeed * Robot.limelight.getTX()/Math.abs(Robot.limelight.getTX());
         } else if (Robot.limelight.getTX() < Robot.limelight.targetArea){
-            xDirection = 0.2;
+            xDirection = -Constants.kAlignmentSpeed;
         }
         drive(xDirection,yDirection,0,true);
         m_drive.feed();
