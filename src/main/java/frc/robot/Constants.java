@@ -56,8 +56,9 @@ public final class Constants {
 
         //Speed and Power Limits
         public static final int kDrivetrainCurrentLimit = 30;
+        public static final int kDropWheelCurrentLimit = 30;
         public static final double kRampRate = 0.01;
-        public static final int kDropWheelDistance = 16;
+        public static final int kDropWheelDistance = 2;
         public static final double kAlignmentSpeed = 0.2;
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
@@ -82,7 +83,9 @@ public final class Constants {
         public static final double kTrackwidthMeters = Units.inchesToMeters(20.176);
         public static final double kTrackLengthMeters = Units.inchesToMeters(21.911);;
         public static final double driveTrainGearRatio = 1/9;
-        public static final double kEncoderDistancePerPulse = driveTrainGearRatio * Math.PI * Units.inchesToMeters(8);
+        public static final double dropWheelGearRatio = 1/25;
+        public static final double kDrivetrainDistancePerPulse = driveTrainGearRatio * Math.PI * Units.inchesToMeters(8);
+        public static final double kDropWheelDistancePerPulse = dropWheelGearRatio / 8 ;
 
         // Robot Movement Profiles
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =

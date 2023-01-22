@@ -18,6 +18,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Drivetrain extends SubsystemBase{
@@ -55,6 +56,28 @@ public class Drivetrain extends SubsystemBase{
         motorLeft1.setSmartCurrentLimit(Constants.kDrivetrainCurrentLimit);
         motorRight0.setSmartCurrentLimit(Constants.kDrivetrainCurrentLimit);
         motorRight1.setSmartCurrentLimit(Constants.kDrivetrainCurrentLimit);
+        dropMotorLeftEngage.setSmartCurrentLimit(Constants.kDropWheelCurrentLimit);
+        dropMotorRightEngage.setSmartCurrentLimit(Constants.kDropWheelCurrentLimit);
+
+        dropMotorLeftEngage.enableSoftLimit(SoftLimitDirection.kForward, true);
+        dropMotorLeftEngage.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        dropMotorRightEngage.enableSoftLimit(SoftLimitDirection.kForward, true);
+        dropMotorRightEngage.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
+        dropMotorLeftEngage.setSoftLimit(SoftLimitDirection.kForward, 2);
+        dropMotorLeftEngage.setSoftLimit(SoftLimitDirection.kReverse, 0);
+        dropMotorRightEngage.setSoftLimit(SoftLimitDirection.kForward, 2);
+        dropMotorRightEngage.setSoftLimit(SoftLimitDirection.kReverse, 0);
+
+        motorRight1.setInverted(true);
+        motorRight0.setInverted(true);
+
+        motorLeft0.burnFlash();
+        motorLeft1.burnFlash();
+        motorRight0.burnFlash();
+        motorRight1.burnFlash();
+        dropMotorRightEngage.burnFlash();
+        dropMotorLeftEngage.burnFlash();
 
         m_leftEncoder0 = motorLeft0.getEncoder();
         m_rightEncoder0 = motorRight0.getEncoder();
@@ -63,18 +86,18 @@ public class Drivetrain extends SubsystemBase{
         m_dropEncoderLeft = dropMotorLeftEngage.getEncoder();
         m_dropEncoderRight = dropMotorRightEngage.getEncoder();
 
-        motorRight1.setInverted(true);
-        motorRight0.setInverted(true);
+        m_leftEncoder0.setPositionConversionFactor(Constants.kDrivetrainDistancePerPulse);
+        m_rightEncoder0.setPositionConversionFactor(Constants.kDrivetrainDistancePerPulse);
+        m_leftEncoder1.setPositionConversionFactor(Constants.kDrivetrainDistancePerPulse);
+        m_rightEncoder1.setPositionConversionFactor(Constants.kDrivetrainDistancePerPulse);
+        m_dropEncoderLeft.setPositionConversionFactor(Constants.kDrivetrainDistancePerPulse);
+        m_dropEncoderRight.setPositionConversionFactor(Constants.kDrivetrainDistancePerPulse);
 
+        
         m_drive = new MecanumDrive(motorLeft0, motorLeft1, motorRight0, motorRight1);
-
         resetEncoders();
-
         odometry = new MecanumDriveOdometry(Constants.kinematics, Rotation2d.fromDegrees(getHeading()), getWheelPositions());
-        m_leftEncoder0.setPositionConversionFactor(Constants.kEncoderDistancePerPulse);
-        m_rightEncoder0.setPositionConversionFactor(Constants.kEncoderDistancePerPulse);
-        m_leftEncoder1.setPositionConversionFactor(Constants.kEncoderDistancePerPulse);
-        m_rightEncoder1.setPositionConversionFactor(Constants.kEncoderDistancePerPulse);
+        
     }
 
     //Every scheduler cycle, we pass our XBox controls so we can control the drivetrain and update its pose in the dashboards

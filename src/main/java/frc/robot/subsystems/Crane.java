@@ -67,6 +67,10 @@ public class Crane extends SubsystemBase{
         m_rotateEncoder.setPositionConversionFactor(Constants.kRotateEncoderDistancePerPulse);
         m_extendEncoder.setPositionConversionFactor(Constants.kExtendEncoderDistancePerPulse);
         m_clawEncoder.setPositionConversionFactor(Constants.kClawEncoderDistancePerPulse);
+
+        craneRotator.burnFlash();
+        craneExtender.burnFlash();
+        clawManipulator.burnFlash();
     }
 
     @Override
