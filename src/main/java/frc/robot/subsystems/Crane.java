@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.commands.CraneTOCom;
+import frc.robot.commands.CraneTeleopCommand;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -75,7 +75,7 @@ public class Crane extends SubsystemBase{
 
     @Override
     public void periodic(){
-        setDefaultCommand(new CraneTOCom());
+        setDefaultCommand(new CraneTeleopCommand());
     }
 
     public void updateCrane(){

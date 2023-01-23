@@ -1,9 +1,9 @@
 package frc.robot.playerconfigs.configs;
 
 import frc.robot.Robot;
-import frc.robot.playerconfigs.PlayerConfigBase;
+import frc.robot.playerconfigs.PlayerConfigs;
 
-public class AnthonyController extends PlayerConfigBase {
+public class AnthonyController extends PlayerConfigs {
     
     //DRIVER CONTROLS
     public void getDriverConfig(){

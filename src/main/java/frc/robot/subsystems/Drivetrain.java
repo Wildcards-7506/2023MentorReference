@@ -2,9 +2,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.HDD;
+import frc.robot.HeadsDownDisplay;
 import frc.robot.Robot;
-import frc.robot.commands.DrivetrainTOCom;
+import frc.robot.commands.DrivetrainTeleopCommand;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.math.kinematics.MecanumDriveMotorVoltages;
@@ -103,13 +103,13 @@ public class Drivetrain extends SubsystemBase{
     //Every scheduler cycle, we pass our XBox controls so we can control the drivetrain and update its pose in the dashboards
     @Override
     public void periodic(){
-        setDefaultCommand(new DrivetrainTOCom());
+        setDefaultCommand(new DrivetrainTeleopCommand());
     }
 
     public void updateDrivetrain(){
         // Update the odometry in the periodic block
         odometry.update(gyro.getRotation2d(), getWheelPositions());
-        HDD.m_field.setRobotPose(odometry.getPoseMeters());
+        HeadsDownDisplay.m_field.setRobotPose(odometry.getPoseMeters());
     }
 
     public Pose2d getPose(){

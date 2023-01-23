@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.playerconfigs.PlayerConfigBase;
+import frc.robot.playerconfigs.PlayerConfigs;
 import frc.robot.subsystems.Crane;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.LEDs;
+import frc.robot.subsystems.SignalLight;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -26,8 +26,8 @@ import frc.robot.subsystems.LEDs;
  */
 public class Robot extends TimedRobot {  
   private SequentialCommandGroup autoMode;
-  public PlayerConfigBase driver;
-  public PlayerConfigBase coDriver;
+  public PlayerConfigs driver;
+  public PlayerConfigs coDriver;
   //Subsystem Declarations
 
   public static final Drivetrain drivetrain = new Drivetrain(
@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
   public static final Limelight limelight = new Limelight();
 
   //Buffer Size is TBD - need a new programmer to develop the color scheme/feedback methods
-  public static final LEDs ledStrip = new LEDs(0,32);
+  public static final SignalLight signalLight = new SignalLight(0,32);
   public static boolean lightSet = false;
 
   //Controllers - Need to make a call on PS4 vs. XBox Controllers
@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    HDD.initBot();
+    HeadsDownDisplay.initBot();
   }
 
   /**
@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    HDD.m_field.setRobotPose(drivetrain.odometry.getPoseMeters());
+    HeadsDownDisplay.m_field.setRobotPose(drivetrain.odometry.getPoseMeters());
     SmartDashboard.putNumber("Match Time",Timer.getMatchTime());
 
     SmartDashboard.putData(CommandScheduler.getInstance());
@@ -87,7 +87,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     CommandScheduler.getInstance().cancelAll();
     //Need LED Indicator Here
-    autoMode = HDD.auto_chooser.getSelected();
+    autoMode = HeadsDownDisplay.auto_chooser.getSelected();
     autoMode.schedule();
   }
 
@@ -100,9 +100,9 @@ public class Robot extends TimedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
-    LEDs.teamColor = DriverStation.getAlliance();
-    driver = HDD.driver_chooser.getSelected();
-    coDriver = HDD.codriver_chooser.getSelected();
+    SignalLight.teamColor = DriverStation.getAlliance();
+    driver = HeadsDownDisplay.driver_chooser.getSelected();
+    coDriver = HeadsDownDisplay.codriver_chooser.getSelected();
   }
 
   /** This function is called periodically during operator control. */
@@ -120,8 +120,8 @@ public class Robot extends TimedRobot {
   /** This function is called periodically when disabled. */
   @Override
   public void disabledPeriodic() {
-    HDD.updateStartupConfig();
-    ledStrip.rainbow();
+    HeadsDownDisplay.updateStartupConfig();
+    signalLight.rainbow();
   }
 
   /** This function is called once when test mode is enabled. */

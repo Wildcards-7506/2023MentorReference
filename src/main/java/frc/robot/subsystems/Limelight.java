@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.LimelightTOCom;
+import frc.robot.commands.LimelightTeleopCommand;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -70,7 +70,7 @@ public class Limelight extends SubsystemBase {
     //Every scheduler cycle, we pass our XBox controls so we can control the limelight.
     @Override
     public void periodic() {
-        setDefaultCommand(new LimelightTOCom());
+        setDefaultCommand(new LimelightTeleopCommand());
         // This method will be called once per scheduler run
     }
 }
