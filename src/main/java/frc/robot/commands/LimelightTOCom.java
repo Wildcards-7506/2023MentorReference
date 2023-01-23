@@ -8,6 +8,7 @@ public class LimelightTOCom extends CommandBase{
 
     private boolean prev_StartButton = false;
 
+
     public LimelightTOCom(){
         addRequirements(Robot.limelight);
     }
@@ -20,6 +21,10 @@ public class LimelightTOCom extends CommandBase{
             if(PlayerConfigBase.switchPipeline){
                 Robot.limelight.switchCameraMode();
             }
+        } else if(PlayerConfigBase.coneSignal){
+                Robot.limelight.conePipeline();
+        } else if(PlayerConfigBase.cubeSignal){
+            Robot.limelight.cubePipeline();
         }
     }
 }

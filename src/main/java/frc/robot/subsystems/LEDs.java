@@ -13,7 +13,6 @@ public class LEDs extends SubsystemBase{
     // Store what the last hue of the first pixel is
     private int m_rainbowFirstPixelHue;
 
-    //Shooter constructor - creates a shooter in robot memory
     public LEDs(int pwmPort, int bufferSize){
         m_led = new AddressableLED(pwmPort);
         m_ledBuffer = new AddressableLEDBuffer(bufferSize);
