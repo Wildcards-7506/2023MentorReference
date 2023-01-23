@@ -22,11 +22,9 @@ public class LEDTOCom extends CommandBase{
             locked = false;
         } else if (PlayerConfigBase.coneSignal){
             Robot.ledStrip.solid(30, 255, 255);
-            if(Robot.limelight.targetArea != 0.1){Robot.limelight.switchCameraMode();}
             locked = true;
         } else if (PlayerConfigBase.cubeSignal){
             Robot.ledStrip.solid(150, 255, 255);
-            if(Robot.limelight.targetArea != 0.5){Robot.limelight.switchCameraMode();}
             locked = true;
         } else if (PlayerConfigBase.unlockLED){
             locked = false;
