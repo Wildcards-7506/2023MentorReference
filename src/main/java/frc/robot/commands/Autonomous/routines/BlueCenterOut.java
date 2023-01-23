@@ -2,11 +2,10 @@ package frc.robot.commands.autonomous.routines;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Robot;
-import frc.robot.commands.autonomous.AutoCommands;
-import frc.robot.commands.autonomous.AutoTrajectoryReader;
+import frc.robot.commands.autonomous.autoCommands.AutoTrajectoryReader;
+import frc.robot.commands.autonomous.sequentialCommands.AutoMecanumCommand;
+import frc.robot.commands.autonomous.sequentialCommands.AutoScore;
 
 public class BlueCenterOut extends SequentialCommandGroup {
   // required PathWeaver file paths
@@ -16,13 +15,12 @@ public class BlueCenterOut extends SequentialCommandGroup {
   private Trajectory traj_path_a = AutoTrajectoryReader.generateTrajectoryFromFile(file_path_a);
 
   //Commands
-  private Command movementA = AutoCommands.drivetrainMotion(traj_path_a);
+  private Command movementA = AutoMecanumCommand.drivetrainMotion(traj_path_a);
 
   public BlueCenterOut(){
     
     addCommands(
-      new InstantCommand(AutoCommands::autoAlign, Robot.drivetrain),
-      new InstantCommand(AutoCommands::autoScore, Robot.crane),
+      new AutoScore(0),
       movementA
     );
   }

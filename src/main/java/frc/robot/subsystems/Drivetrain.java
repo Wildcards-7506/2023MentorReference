@@ -226,6 +226,18 @@ public class Drivetrain extends SubsystemBase{
         return -gyro.getAngle();
     }
 
+    public double getPitch(){
+        return Robot.drivetrain.gyro.getPitch();
+    }
+
+    public double getDWL(){
+        return Robot.drivetrain.m_dropEncoderLeft.getPosition();
+    }
+
+    public double getDWR(){
+        return Robot.drivetrain.m_dropEncoderRight.getPosition();
+    }
+
     /**
      * Returns the turn rate of the robot.
      *

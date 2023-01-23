@@ -2,11 +2,11 @@ package frc.robot.commands.autonomous.routines;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Robot;
-import frc.robot.commands.autonomous.AutoCommands;
-import frc.robot.commands.autonomous.AutoTrajectoryReader;
+import frc.robot.commands.autonomous.autoCommands.AutoTrajectoryReader;
+import frc.robot.commands.autonomous.sequentialCommands.AutoCollect;
+import frc.robot.commands.autonomous.sequentialCommands.AutoMecanumCommand;
+import frc.robot.commands.autonomous.sequentialCommands.AutoScore;
 
 public class BlueWallOut extends SequentialCommandGroup {
   // required PathWeaver file paths
@@ -20,21 +20,18 @@ public class BlueWallOut extends SequentialCommandGroup {
   private Trajectory traj_path_c = AutoTrajectoryReader.generateTrajectoryFromFile(file_path_c);
 
   //Commands
-  private Command movementA = AutoCommands.drivetrainMotion(traj_path_a);
-  private Command movementB = AutoCommands.drivetrainMotion(traj_path_b);
-  private Command movementC = AutoCommands.drivetrainMotion(traj_path_c);
+  private Command movementA = AutoMecanumCommand.drivetrainMotion(traj_path_a);
+  private Command movementB = AutoMecanumCommand.drivetrainMotion(traj_path_b);
+  private Command movementC = AutoMecanumCommand.drivetrainMotion(traj_path_c);
 
   public BlueWallOut(){
     
     addCommands(
-        new InstantCommand(AutoCommands::autoAlign, Robot.drivetrain),
-        new InstantCommand(AutoCommands::autoScore, Robot.crane),
+        new AutoScore(0),
         movementA,
-        new InstantCommand(AutoCommands::autoCollect, Robot.crane),
+        new AutoCollect(1),
         movementB,
-        new InstantCommand(Robot.limelight::switchCameraMode, Robot.limelight),
-        new InstantCommand(AutoCommands::autoAlign, Robot.drivetrain),
-        new InstantCommand(AutoCommands::autoScore, Robot.crane),
+        new AutoScore(1),
         movementC
       );
   }

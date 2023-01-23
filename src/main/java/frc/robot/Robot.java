@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.autonomous.AutoCommands;
 import frc.robot.playerconfigs.PlayerConfigBase;
 import frc.robot.subsystems.Crane;
 import frc.robot.subsystems.Drivetrain;
@@ -95,7 +94,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    crane.setClaw(AutoCommands.clawPosition);
     drivetrain.m_drive.feed();
   }
 
