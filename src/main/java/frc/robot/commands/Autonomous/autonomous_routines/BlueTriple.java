@@ -3,6 +3,7 @@ package frc.robot.commands.autonomous.autonomous_routines;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.commands.autonomous.autonomous_actions.AutoCollect;
 import frc.robot.commands.autonomous.autonomous_actions.AutoDrive;
 import frc.robot.commands.autonomous.autonomous_actions.AutoScore;
@@ -30,15 +31,15 @@ public class BlueTriple extends SequentialCommandGroup {
   public BlueTriple(){
     
     addCommands(
-        new AutoScore(0),
+        new AutoScore(Constants.cone),
         movementA,
-        new AutoCollect(1),
+        new AutoCollect(Constants.cube),
         movementB,
-        new AutoScore(1),
+        new AutoScore(Constants.cube),
         movementC,
-        new AutoCollect(0),
+        new AutoCollect(Constants.cone),
         movementD,
-        new AutoScore(0)
+        new AutoScore(Constants.cone)
       );
   }
 } 

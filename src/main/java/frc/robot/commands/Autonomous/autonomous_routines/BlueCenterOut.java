@@ -3,6 +3,7 @@ package frc.robot.commands.autonomous.autonomous_routines;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.commands.autonomous.autonomous_actions.AutoDrive;
 import frc.robot.commands.autonomous.autonomous_actions.AutoScore;
 import frc.robot.commands.autonomous.subsystem_commands.AutoTrajectoryReader;
@@ -20,7 +21,7 @@ public class BlueCenterOut extends SequentialCommandGroup {
   public BlueCenterOut(){
     
     addCommands(
-      new AutoScore(0),
+      new AutoScore(Constants.cone),
       movementA
     );
   }

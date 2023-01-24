@@ -132,4 +132,9 @@ public final class Constants {
         public static final double kClawKP = 1.0;
         public static final double kClawOpen = 85.0;
         public static final double kClawClosed = 0.0;
+
+    //Gameplay Constants
+        public static final int cone = 0;
+        public static final int cube = 1;
+
 }

@@ -3,6 +3,7 @@ package frc.robot.commands.autonomous.autonomous_routines;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.commands.autonomous.autonomous_actions.AutoBalance;
 import frc.robot.commands.autonomous.autonomous_actions.AutoDrive;
 import frc.robot.commands.autonomous.autonomous_actions.AutoScore;
@@ -21,7 +22,7 @@ public class BlueCenterCharge extends SequentialCommandGroup {
   public BlueCenterCharge(){
     
     addCommands(
-        new AutoScore(0),
+        new AutoScore(Constants.cone),
         movementA,
         new AutoBalance(0)
       );
