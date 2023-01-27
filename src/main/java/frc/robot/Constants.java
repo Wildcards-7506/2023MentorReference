@@ -136,4 +136,9 @@ public final class Constants {
         public static double kArticulatorEncoderDistancePerPulse = 1.0/125 * 360;;
         public static double kArticulatorLimit = 220.0;
         public static double kArticulatorKP = 1.0;
+
+    //Gameplay Constants
+        public static final int cone = 0;
+        public static final int cube = 1;
+
 }
