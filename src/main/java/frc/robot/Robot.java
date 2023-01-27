@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.CraneTeleopCommand;
 import frc.robot.playerconfigs.PlayerConfigs;
 import frc.robot.subsystems.Crane;
 import frc.robot.subsystems.Drivetrain;
@@ -42,7 +43,8 @@ public class Robot extends TimedRobot {
   public static final Crane crane = new Crane(
     Constants.ROTATOR,
     Constants.EXTENDER,
-    Constants.CLAW
+    Constants.CLAW,
+    0
   );
   
   public static final Limelight limelight = new Limelight();
@@ -127,11 +129,25 @@ public class Robot extends TimedRobot {
   /** This function is called once when test mode is enabled. */
   @Override
   public void testInit() {
+    driver = HeadsDownDisplay.driver_chooser.getSelected();
+    coDriver = HeadsDownDisplay.codriver_chooser.getSelected();
+    SmartDashboard.putNumber("Rotator P", 0.0);
+    SmartDashboard.putNumber("Claw P", 0.0);
   }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    driver.getDriverConfig();
+    coDriver.getCoDriverConfig();
+    double rotatorP = SmartDashboard.getNumber("Rotator P", 0.0);
+    double clawP = SmartDashboard.getNumber("Rotator P", 0.0);
+    crane.pidRot.setP(rotatorP);
+    crane.pidClaw.setP(clawP);
+
+    CraneTeleopCommand craneTOCOM = new CraneTeleopCommand();
+    craneTOCOM.schedule();
+  }
 
   /** This function is called once when the robot is first started up. */
   @Override

@@ -21,6 +21,7 @@ public final class Constants {
         public static final int ROTATOR = 2;
         public static final int EXTENDER = 3;
         public static final int CLAW = 4;
+        public static final int ARTICULATOR = 6;
 
     //Controller Assignments
         public static final int DRIVER_CONTROLLER_0 = 0;
@@ -82,10 +83,9 @@ public final class Constants {
         //Robot Size Parameters
         public static final double kTrackwidthMeters = Units.inchesToMeters(20.176);
         public static final double kTrackLengthMeters = Units.inchesToMeters(21.911);;
-        public static final double driveTrainGearRatio = 1/9;
-        public static final double dropWheelGearRatio = 1/25;
+        public static final double driveTrainGearRatio = 1.0/9;
         public static final double kDrivetrainDistancePerPulse = driveTrainGearRatio * Math.PI * Units.inchesToMeters(8);
-        public static final double kDropWheelDistancePerPulse = dropWheelGearRatio / 8 ;
+        public static final double kDropWheelDistancePerPulse = 0.04;
 
         // Robot Movement Profiles
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
@@ -110,7 +110,7 @@ public final class Constants {
 
     //Crane Constants
         public static final int kRotateCurrentLimit = 30;
-        public static final double kRotateEncoderDistancePerPulse = 1/625 * 360;
+        public static final double kRotateEncoderDistancePerPulse = 1.0/375 * 360;
         public static final double kRotatorKP = 1.0;
         public static final double kRotatorGround = 10.0;
         public static final double kRotatorHi = 210.0;
@@ -119,7 +119,7 @@ public final class Constants {
         public static final double kRotatorClosed = 0.0;
 
         public static final int kExtenderCurrentLimit = 30;
-        public static final double kExtendEncoderDistancePerPulse = 0.125;
+        public static final double kExtendEncoderDistancePerPulse = 1.0/8;
         public static final double kExtenderGround = 24.0;
         public static final double kExtenderMid = 2.5;
         public static final double kExtenderHi = 20.0;
@@ -128,8 +128,12 @@ public final class Constants {
         public static final double kExtenderHeightLimit = 20.0;
         
         public static final int kClawCurrentLimit = 10;
-        public static final double kClawEncoderDistancePerPulse = 1/125 * 360;
+        public static final double kClawEncoderDistancePerPulse = 1.0/125 * 360;
         public static final double kClawKP = 1.0;
         public static final double kClawOpen = 85.0;
         public static final double kClawClosed = 0.0;
+
+        public static double kArticulatorEncoderDistancePerPulse = 1.0/125 * 360;;
+        public static double kArticulatorLimit = 220.0;
+        public static double kArticulatorKP = 1.0;
 }
