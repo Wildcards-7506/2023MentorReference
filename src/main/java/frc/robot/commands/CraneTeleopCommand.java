@@ -12,6 +12,7 @@ public class CraneTeleopCommand extends CommandBase{
 
     @Override
     public void execute(){
+        //Rotator & Extender
         //COLLECTION
         if (PlayerConfigs.collectPosition){
             Robot.crane.setArmPosition(Constants.kRotatorCollect);
@@ -42,13 +43,26 @@ public class CraneTeleopCommand extends CommandBase{
             Robot.crane.setExtendPosition(Constants.kExtenderClosed);
         }
         
-        if (PlayerConfigs.openClaw){
-            Robot.crane.setClaw(Constants.kClawOpen);
-        //     Robot.crane.setRoller(8);
-        // } else if (PlayerConfigBase.closeClaw){
-        //     Robot.crane.setRoller(-8);
+        //Claw
+        if (PlayerConfigs.release){
+            if(Robot.crane.articulatorPresent){
+                Robot.crane.setRoller(8);
+            } else {
+                Robot.crane.setClaw(Constants.kClawOpen);
+            }
+        } else if (PlayerConfigs.collect & Robot.crane.articulatorPresent){
+            Robot.crane.setRoller(-8);
         } else {
-            Robot.crane.setClaw(Constants.kClawClosed);
+            if(Robot.crane.articulatorPresent){
+                Robot.crane.setRoller(0);
+            } else {
+                Robot.crane.setClaw(Constants.kClawClosed);
+            }
+        }
+        
+        //Articulator (if present)
+        if (Robot.crane.articulatorPresent){
+            Robot.crane.setArticulatorPosition(-Robot.crane.getRotator());
         }
     }
 }

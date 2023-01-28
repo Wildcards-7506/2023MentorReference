@@ -12,7 +12,7 @@ import edu.wpi.first.math.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.math.geometry.Rotation2d;
-//import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.SerialPort;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -37,8 +37,8 @@ public class Drivetrain extends SubsystemBase{
 
     public final MecanumDrive m_drive;
 
-    public AHRS gyro = new AHRS(SerialPort.Port.kUSB);
-    //public AnalogGyro gyro = new AnalogGyro(1);
+    //public AHRS gyro = new AHRS(SerialPort.Port.kUSB);
+    public AnalogGyro gyro = new AnalogGyro(1);
 
     public MecanumDriveOdometry odometry;
     
@@ -227,7 +227,7 @@ public class Drivetrain extends SubsystemBase{
     }
 
     public double getPitch(){
-        return Robot.drivetrain.gyro.getPitch();
+        return 1;//Robot.drivetrain.gyro.getPitch();
     }
 
     public double getDWL(){
