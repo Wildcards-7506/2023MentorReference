@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.CraneTeleopCommand;
 import frc.robot.playerconfigs.PlayerConfigs;
 import frc.robot.subsystems.Crane;
 import frc.robot.subsystems.Drivetrain;
@@ -51,11 +50,9 @@ public class Robot extends TimedRobot {
   
   public static final Limelight limelight = new Limelight();
 
-  //Buffer Size is TBD - need a new programmer to develop the color scheme/feedback methods
-  public static final SignalLight signalLight = new SignalLight(0,32);
-  public static boolean lightSet = false;
+  public static final SignalLight signalLight = new SignalLight(0,30);
 
-  //Controllers - Need to make a call on PS4 vs. XBox Controllers
+  //Controllers
   public static final PS4Controller controller0 = new PS4Controller(Constants.DRIVER_CONTROLLER_0);
   public static final XboxController controller1 = new XboxController(Constants.DRIVER_CONTROLLER_1);
 
@@ -131,24 +128,16 @@ public class Robot extends TimedRobot {
   /** This function is called once when test mode is enabled. */
   @Override
   public void testInit() {
-    driver = HeadsDownDisplay.driver_chooser.getSelected();
-    coDriver = HeadsDownDisplay.codriver_chooser.getSelected();
-    SmartDashboard.putNumber("Rotator P", 0.0);
-    SmartDashboard.putNumber("Claw P", 0.0);
+    crane.resetEncoders();
   }
 
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-    driver.getDriverConfig();
-    coDriver.getCoDriverConfig();
-    double rotatorP = SmartDashboard.getNumber("Rotator P", 0.0);
-    double clawP = SmartDashboard.getNumber("Rotator P", 0.0);
-    crane.pidRot.setP(rotatorP);
-    crane.pidClaw.setP(clawP);
-
-    CraneTeleopCommand craneTOCOM = new CraneTeleopCommand();
-    craneTOCOM.schedule();
+    SmartDashboard.putNumber("Rotator", crane.getRotator());
+    SmartDashboard.putNumber("Extender", crane.getExtender());
+    SmartDashboard.putNumber("Claw", crane.getClaw());
+    SmartDashboard.putNumber("Articulator", crane.getArticulator());
   }
 
   /** This function is called once when the robot is first started up. */

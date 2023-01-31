@@ -29,7 +29,7 @@ public class Crane extends SubsystemBase{
     public Crane (int rotator0, int rotator1, int extender, int claw, int articulator, boolean clawPresent){
         clawMode = clawPresent;
         craneRotator0 = new CANSparkMax(rotator0, MotorType.kBrushless);
-        craneRotator1 = new CANSparkMax(rotator0, MotorType.kBrushless);
+        craneRotator1 = new CANSparkMax(rotator1, MotorType.kBrushless);
         craneExtender = new CANSparkMax(extender, MotorType.kBrushless);
         clawManipulator = new CANSparkMax(claw, MotorType.kBrushless);
         clawArticulator = new CANSparkMax(articulator, MotorType.kBrushless);
@@ -153,6 +153,13 @@ public class Crane extends SubsystemBase{
 
     public double getArticulator(){
         return m_articulatorEncoder.getPosition();
+    }
+
+    public void resetEncoders(){
+        m_rotateEncoder.setPosition(0);
+        m_extendEncoder.setPosition(0);
+        m_clawEncoder.setPosition(0);
+        m_articulatorEncoder.setPosition(0);
     }
 
 }
