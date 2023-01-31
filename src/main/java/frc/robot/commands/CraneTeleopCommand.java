@@ -51,24 +51,19 @@ public class CraneTeleopCommand extends CommandBase{
         
         //Claw
         if (PlayerConfigs.release){
-            if(Robot.crane.articulatorPresent){
-                Robot.crane.setRoller(8);
-            } else {
+            if(Robot.crane.clawMode){
                 Robot.crane.setClaw(Constants.kClawOpen);
+            } else {
+                Robot.crane.setRoller(8);
             }
-        } else if (PlayerConfigs.collect & Robot.crane.articulatorPresent){
+        } else if (PlayerConfigs.collect & !Robot.crane.clawMode){
             Robot.crane.setRoller(-8);
         } else {
-            if(Robot.crane.articulatorPresent){
-                Robot.crane.setRoller(0);
+            if(Robot.crane.clawMode){
+                Robot.crane.setClaw(Constants.kClawClosed); 
             } else {
-                Robot.crane.setClaw(Constants.kClawClosed);
+                Robot.crane.setRoller(0);
             }
-        }
-        
-        //Articulator (if present)
-        if (Robot.crane.articulatorPresent){
-            Robot.crane.setArticulatorPosition(-Robot.crane.getRotator());
         }
     }
 }
