@@ -18,10 +18,11 @@ public final class Constants {
         public static final int LEFT_DROP_ENGAGE = 16;
 
         //Crane
-        public static final int ROTATOR = 2;
-        public static final int EXTENDER = 3;
-        public static final int CLAW = 4;
-        public static final int ARTICULATOR = 6;
+        public static final int ROTATOR0 = 2;
+        public static final int ROTATOR1 = 3;
+        public static final int EXTENDER = 4;
+        public static final int CLAW = 6;
+        public static final int ARTICULATOR = 7;
 
     //Controller Assignments
         public static final int DRIVER_CONTROLLER_0 = 0;
@@ -133,9 +134,10 @@ public final class Constants {
         public static final double kClawOpen = 85.0;
         public static final double kClawClosed = 0.0;
 
-        public static double kArticulatorEncoderDistancePerPulse = 1.0/125 * 360;;
-        public static double kArticulatorLimit = 220.0;
-        public static double kArticulatorKP = 1.0;
+        public static final double kArticulatorEncoderDistancePerPulse = 1.0/125 * 360;;
+        public static final double kArticulatorLimit = 220.0;
+        public static final double kArticulatorKP = 1.0;
+        public static final double kArticulatorOffset = 10.0;
 
     //Gameplay Constants
         public static final int cone = 0;

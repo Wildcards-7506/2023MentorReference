@@ -41,10 +41,12 @@ public class Robot extends TimedRobot {
   );
 
   public static final Crane crane = new Crane(
-    Constants.ROTATOR,
+    Constants.ROTATOR0,
+    Constants.ROTATOR1,
     Constants.EXTENDER,
     Constants.CLAW,
-    0
+    Constants.ARTICULATOR,
+    true
   );
   
   public static final Limelight limelight = new Limelight();

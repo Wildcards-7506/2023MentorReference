@@ -29,26 +29,21 @@ public class DrivetrainTeleopCommand extends CommandBase{
         if(driveMode){
             if (PlayerConfigs.snap0){
                 Robot.drivetrain.snap(0);
-                SmartDashboard.putString("Drive Mode", "Mecanum SNAP 0");
             } else if (PlayerConfigs.snap180){
                 Robot.drivetrain.snap(180);
-                SmartDashboard.putString("Drive Mode", "Mecanum SNAP 180");   
             } else if(PlayerConfigs.groundPosition || PlayerConfigs.hiPosition || PlayerConfigs.midPosition || PlayerConfigs.collectPosition){
                 Robot.drivetrain.drive( PlayerConfigs.fxMovement * PlayerConfigs.fdriveSpeed, 
                                         PlayerConfigs.fyMovement * PlayerConfigs.fdriveSpeed, 
                                         PlayerConfigs.fturnSpeed * PlayerConfigs.fturnSpeed, 
                                         true);
-                SmartDashboard.putString("Drive Mode", "Mecanum SLOW");
             } else {
                 Robot.drivetrain.setDropWheels(0);
                 Robot.drivetrain.drive(xSpeed, ySpeed, turnSpeed, true);
-                SmartDashboard.putString("Drive Mode", "Mecanum FAST");
             }
         } else {
             //Tank Drive, Strafing Disabled
             Robot.drivetrain.setDropWheels(Constants.kDropWheelDistance);
             Robot.drivetrain.drive(xSpeed, 0, turnSpeed, false);
-            SmartDashboard.putString("Drive Mode", "Tank");
         }
 
         prevX = xSpeed;

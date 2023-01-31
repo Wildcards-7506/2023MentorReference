@@ -12,31 +12,33 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Crane extends SubsystemBase{
-    private CANSparkMax craneRotator;
+    private CANSparkMax craneRotator0;
+    private CANSparkMax craneRotator1;
     private CANSparkMax craneExtender;
     private CANSparkMax clawManipulator;
     private CANSparkMax clawArticulator;
-    public RelativeEncoder m_rotateEncoder;
-    public RelativeEncoder m_extendEncoder; 
-    public RelativeEncoder m_clawEncoder;
-    public RelativeEncoder m_articulatorEncoder;
+    private RelativeEncoder m_rotateEncoder;
+    private RelativeEncoder m_extendEncoder; 
+    private RelativeEncoder m_clawEncoder;
+    private RelativeEncoder m_articulatorEncoder;
     public SparkMaxPIDController pidRot;
     public SparkMaxPIDController pidClaw;
-    public SparkMaxPIDController pidArticulator;
+    private SparkMaxPIDController pidArticulator;
+    public boolean clawMode;
 
-    public Crane (int rotator, int extender, int claw, int articulator){
-        craneRotator = new CANSparkMax(rotator, MotorType.kBrushless);
+    public Crane (int rotator0, int rotator1, int extender, int claw, int articulator, boolean clawPresent){
+        clawMode = clawPresent;
+        craneRotator0 = new CANSparkMax(rotator0, MotorType.kBrushless);
+        craneRotator1 = new CANSparkMax(rotator0, MotorType.kBrushless);
         craneExtender = new CANSparkMax(extender, MotorType.kBrushless);
         clawManipulator = new CANSparkMax(claw, MotorType.kBrushless);
-        if (articulator != 0){
-            clawArticulator = new CANSparkMax(articulator, MotorType.kBrushless);
-        }
+        clawArticulator = new CANSparkMax(articulator, MotorType.kBrushless);
 
-        craneRotator.enableSoftLimit(SoftLimitDirection.kForward, true);
-        craneRotator.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        craneRotator0.enableSoftLimit(SoftLimitDirection.kForward, true);
+        craneRotator0.enableSoftLimit(SoftLimitDirection.kReverse, true);
         craneExtender.enableSoftLimit(SoftLimitDirection.kForward, true);
         craneExtender.enableSoftLimit(SoftLimitDirection.kReverse, true);
-        if(articulator == 0){
+        if(clawPresent){
             clawManipulator.enableSoftLimit(SoftLimitDirection.kForward, true);
             clawManipulator.enableSoftLimit(SoftLimitDirection.kReverse, true);
         } else {
@@ -44,32 +46,28 @@ public class Crane extends SubsystemBase{
             clawManipulator.enableSoftLimit(SoftLimitDirection.kReverse, false);
         }
 
-        craneRotator.setSoftLimit(SoftLimitDirection.kForward, 0);
-        craneRotator.setSoftLimit(SoftLimitDirection.kReverse, 330);
+        craneRotator0.setSoftLimit(SoftLimitDirection.kForward, 0);
+        craneRotator0.setSoftLimit(SoftLimitDirection.kReverse, 330);
         craneExtender.setSoftLimit(SoftLimitDirection.kForward, 0);
         craneExtender.setSoftLimit(SoftLimitDirection.kReverse, 48);
-        if(articulator == 0){
+        if(clawPresent){
             clawManipulator.setSoftLimit(SoftLimitDirection.kForward, 90);
             clawManipulator.setSoftLimit(SoftLimitDirection.kReverse, 0);
         }
 
-        craneRotator.setSmartCurrentLimit(Constants.kRotateCurrentLimit);
+        craneRotator0.setSmartCurrentLimit(Constants.kRotateCurrentLimit);
+        craneRotator1.setSmartCurrentLimit(Constants.kRotateCurrentLimit);
         craneExtender.setSmartCurrentLimit(Constants.kExtenderCurrentLimit);
         clawManipulator.setSmartCurrentLimit(Constants.kClawCurrentLimit);
 
-        m_rotateEncoder = craneRotator.getEncoder();
+        m_rotateEncoder = craneRotator0.getEncoder();
         m_extendEncoder = craneExtender.getEncoder();
         m_clawEncoder = clawManipulator.getEncoder();
-        if(articulator != 0){
-            m_articulatorEncoder = clawArticulator.getEncoder();
-        }
-        
+        m_articulatorEncoder = clawArticulator.getEncoder();
 
-        pidRot = craneRotator.getPIDController();
+        pidRot = craneRotator0.getPIDController();
         pidClaw = clawManipulator.getPIDController();
-        if(articulator != 0){
-            pidArticulator = clawArticulator.getPIDController();
-        }
+        pidArticulator = clawArticulator.getPIDController();
 
         pidRot.setP(Constants.kRotatorKP);
         pidRot.setI(0);
@@ -77,29 +75,30 @@ public class Crane extends SubsystemBase{
         pidRot.setIZone(0);
         pidRot.setFF(0);
         pidRot.setOutputRange(0, Constants.kRotatorMid);
-        pidClaw.setP(Constants.kClawKP);
-        pidClaw.setI(0);
-        pidClaw.setD(0);
-        pidClaw.setIZone(0);
-        pidClaw.setFF(0);
-        pidClaw.setOutputRange(0, Constants.kClawClosed);
-        if(articulator != 0){
-            pidClaw.setP(Constants.kArticulatorKP);
+        pidArticulator.setP(Constants.kArticulatorKP);
+        pidArticulator.setI(0);
+        pidArticulator.setD(0);
+        pidArticulator.setIZone(0);
+        pidArticulator.setFF(0);
+        pidArticulator.setOutputRange(0, Constants.kArticulatorLimit);
+        if(clawPresent){
+            pidClaw.setP(Constants.kClawKP);
             pidClaw.setI(0);
             pidClaw.setD(0);
             pidClaw.setIZone(0);
             pidClaw.setFF(0);
-            pidClaw.setOutputRange(0, Constants.kArticulatorLimit);
+            pidClaw.setOutputRange(0, Constants.kClawClosed);
         }
 
         m_rotateEncoder.setPositionConversionFactor(Constants.kRotateEncoderDistancePerPulse);
         m_extendEncoder.setPositionConversionFactor(Constants.kExtendEncoderDistancePerPulse);
         m_clawEncoder.setPositionConversionFactor(Constants.kClawEncoderDistancePerPulse);
-        if(articulator != 0){
-            m_articulatorEncoder.setPositionConversionFactor(Constants.kArticulatorEncoderDistancePerPulse);
-        }
+        m_articulatorEncoder.setPositionConversionFactor(Constants.kArticulatorEncoderDistancePerPulse);
 
-        craneRotator.burnFlash();
+        craneRotator1.follow(craneRotator0, true);
+
+        craneRotator0.burnFlash();
+        craneRotator1.burnFlash();
         craneExtender.burnFlash();
         clawManipulator.burnFlash();
         clawArticulator.burnFlash();
