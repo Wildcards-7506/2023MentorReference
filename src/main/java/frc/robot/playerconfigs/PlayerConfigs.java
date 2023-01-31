@@ -35,8 +35,8 @@ public class PlayerConfigs {
     public static boolean collectPosition;
 
     //Claw
+    public static boolean collect;
     public static boolean release;
-    public static boolean intake;
 
     //Driver controls method placeholder
     public void getDriverConfig(){}

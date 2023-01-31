@@ -11,6 +11,13 @@
           "open": true
         }
       }
+    },
+    "PowerDistributions": {
+      "0": {
+        "PowerDistribution[0]": {
+          "open": true
+        }
+      }
     }
   },
   "NTProvider": {
@@ -62,6 +69,9 @@
       }
     },
     "transitory": {
+      "Shuffleboard": {
+        "open": true
+      },
       "SmartDashboard": {
         "open": true
       }

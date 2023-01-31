@@ -101,7 +101,7 @@ public class Crane extends SubsystemBase{
         craneRotator1.burnFlash();
         craneExtender.burnFlash();
         clawManipulator.burnFlash();
-        clawArticulator.burnFlash();
+        if(articulatorPresent){clawArticulator.burnFlash();}
     }
 
     @Override

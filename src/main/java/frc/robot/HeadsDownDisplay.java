@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -23,6 +24,7 @@ import frc.robot.playerconfigs.configs.MentorController;
 import frc.robot.playerconfigs.configs.RyanController;
 
 public class HeadsDownDisplay {    
+    private static PowerDistribution pdp = new PowerDistribution();
     public static SendableChooser<SequentialCommandGroup> auto_chooser = new SendableChooser<>();
     public static SendableChooser<PlayerConfigs> driver_chooser = new SendableChooser<>();
     public static SendableChooser<PlayerConfigs> codriver_chooser = new SendableChooser<>();
@@ -76,6 +78,6 @@ public class HeadsDownDisplay {
     public static void updateHDD(){
         Robot.crane.updateCrane();
         Robot.drivetrain.updateDrivetrain();
-        
+        SmartDashboard.putData(pdp);
     }
 }
