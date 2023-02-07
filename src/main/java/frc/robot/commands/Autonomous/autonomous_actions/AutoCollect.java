@@ -6,6 +6,7 @@ import frc.robot.Constants;
 import frc.robot.commands.autonomous.subsystem_commands.AutoClawPosition;
 import frc.robot.commands.autonomous.subsystem_commands.AutoExtenderPosition;
 import frc.robot.commands.autonomous.subsystem_commands.AutoRotatorPosition;
+import frc.robot.subsystems.Crane.EndEffectorState;
 
 public class AutoCollect extends SequentialCommandGroup {
 
@@ -15,8 +16,8 @@ public class AutoCollect extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new AutoRotatorPosition(Constants.kRotatorGround),
         new AutoExtenderPosition(Constants.kExtenderGround),
-        new AutoClawPosition(Constants.kClawOpen)),
-      new AutoClawPosition(Constants.kClawClosed / (1 + cargoType)),
+        new AutoClawPosition(EndEffectorState.INTAKE, false)),
+      new AutoClawPosition(EndEffectorState.IDLE, false),
       new AutoExtenderPosition(Constants.kRotatorClosed)
     );
   }

@@ -1,17 +1,20 @@
 package frc.robot.commands.autonomous.subsystem_commands;
 
 import frc.robot.Robot;
+import frc.robot.subsystems.Crane.EndEffectorState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoClawPosition extends CommandBase{
     
-    double clawSetPoint;
+    EndEffectorState state;
+    boolean actionFlag;
     Timer timer = null;
 
     /** Creates a new Claw Positioning Command. */
-    public AutoClawPosition(double setPoint) {
-        this.clawSetPoint = setPoint;
+    public AutoClawPosition(EndEffectorState setPoint, boolean action) {
+        this.state = setPoint;
+        this.actionFlag = action;
     }
 
     // Called when the command is initially scheduled.
@@ -24,13 +27,13 @@ public class AutoClawPosition extends CommandBase{
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        Robot.crane.setClaw(clawSetPoint);
+        Robot.crane.setEndEffector(state, actionFlag);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        Robot.crane.setClaw(clawSetPoint);
+        Robot.crane.setEndEffector(state, actionFlag);
     }
 
     // Returns true when the command should end.

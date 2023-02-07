@@ -7,6 +7,7 @@ import frc.robot.commands.autonomous.subsystem_commands.AutoClawPosition;
 import frc.robot.commands.autonomous.subsystem_commands.AutoExtenderPosition;
 import frc.robot.commands.autonomous.subsystem_commands.AutoRotatorPosition;
 import frc.robot.commands.autonomous.subsystem_commands.AutoScoringAlign;
+import frc.robot.subsystems.Crane.EndEffectorState;
 
 public class AutoScore extends SequentialCommandGroup {
 
@@ -16,11 +17,12 @@ public class AutoScore extends SequentialCommandGroup {
         new ParallelCommandGroup(
           new AutoScoringAlign(pipeline),
           new AutoRotatorPosition(Constants.kRotatorHi),
-          new AutoExtenderPosition(Constants.kExtenderHi)),
-        new AutoClawPosition(Constants.kClawOpen),
-        new AutoClawPosition(Constants.kClawClosed),
+          new AutoExtenderPosition(Constants.kExtenderHi),
+          new AutoClawPosition(EndEffectorState.PLACEMENT, false)),
+        new AutoClawPosition(EndEffectorState.PLACEMENT, true),
         //Return to Close
         new ParallelCommandGroup(
+          new AutoClawPosition(EndEffectorState.IDLE, false),
           new AutoRotatorPosition(Constants.kRotatorClosed),
           new AutoExtenderPosition(Constants.kRotatorClosed))
       );

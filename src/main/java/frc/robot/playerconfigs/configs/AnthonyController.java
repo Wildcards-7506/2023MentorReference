@@ -37,8 +37,8 @@ public class AnthonyController extends PlayerConfigs {
         collectPosition = Robot.controller1.getXButton();
 
         //Claw Operation
-        release = Robot.controller1.getRightBumper();
-        collect = Robot.controller1.getRightTriggerAxis() > 0.5;
+        clawOperate = Robot.controller1.getRightBumper();
+        rollerCollect = Robot.controller1.getRightTriggerAxis() > 0.5;
 
         //Fine Drivetrain Control
         fineControl = Robot.controller1.getRightTriggerAxis();

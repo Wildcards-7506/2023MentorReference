@@ -8,6 +8,7 @@ import frc.robot.commands.CraneTeleopCommand;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -25,6 +26,12 @@ public class Crane extends SubsystemBase{
     public SparkMaxPIDController pidClaw;
     private SparkMaxPIDController pidArticulator;
     public boolean clawMode;
+
+    public enum EndEffectorState{
+        INTAKE,
+        PLACEMENT,
+        IDLE
+    }
 
     public Crane (int rotator0, int rotator1, int extender, int claw, int articulator, boolean clawPresent){
         clawMode = clawPresent;
@@ -127,16 +134,40 @@ public class Crane extends SubsystemBase{
         } 
     }
 
-    public void setClaw(double setpoint){
-        pidClaw.setReference(setpoint, CANSparkMax.ControlType.kPosition);
+    public void setEndEffector(EndEffectorState state, boolean action){
+        double setpoint;
+        switch(state)
+        {
+            case INTAKE :
+                setpoint = action ? Constants.kClawClosed : Constants.kClawOpen;
+                if(clawMode) {
+                    pidClaw.setReference(setpoint, ControlType.kPosition);
+                } else{
+                    clawManipulator.setVoltage(8);
+                }
+                break;
+            case PLACEMENT :
+                setpoint = action ? Constants.kClawOpen : Constants.kClawClosed;
+                if(clawMode) {
+                    pidClaw.setReference(setpoint, ControlType.kPosition);
+                } else if (action){
+                    clawManipulator.setVoltage(-8);
+                } else {
+                    clawManipulator.setVoltage(0);
+                }
+                break;
+            case IDLE :
+                if(clawMode) {
+                    pidClaw.setReference(Constants.kClawClosed, ControlType.kPosition);
+                } else{
+                    clawManipulator.setVoltage(0);
+                }
+                break;
+        }
     }
 
     public void setArticulatorPosition(double setpoint){
         pidArticulator.setReference(setpoint, CANSparkMax.ControlType.kPosition);
-    }
-
-    public void setRoller(double setpoint){
-        clawManipulator.setVoltage(setpoint);
     }
 
     public double getRotator(){
