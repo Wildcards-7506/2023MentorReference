@@ -31,13 +31,11 @@ public class CraneTeleopCommand extends CommandBase{
             Robot.crane.setArmPosition(Constants.kRotatorMid);
             Robot.crane.setExtendPosition(Constants.kExtenderMid);
             Robot.crane.setArticulatorPosition(-Robot.crane.getRotator() - Constants.kArticulatorOffset);
-            Robot.drivetrain.targetAlign();
             Robot.crane.setEndEffector(EndEffectorState.PLACEMENT, PlayerConfigs.clawOperate);
         } else if (PlayerConfigs.hiPosition){
             Robot.crane.setArmPosition(Constants.kRotatorHi);
             Robot.crane.setExtendPosition(Constants.kExtenderHi);
             Robot.crane.setArticulatorPosition(-Robot.crane.getRotator() - Constants.kArticulatorOffset);
-            Robot.drivetrain.targetAlign();
             Robot.crane.setEndEffector(EndEffectorState.PLACEMENT, PlayerConfigs.clawOperate);
         //SAFETY
             //Ground to storage - Avoid frame collision
@@ -51,6 +49,12 @@ public class CraneTeleopCommand extends CommandBase{
             Robot.crane.setExtendPosition(Constants.kExtenderHeightLimit);
             Robot.crane.setArticulatorPosition(-Robot.crane.getRotator());
             Robot.crane.setEndEffector(EndEffectorState.IDLE,false);
+        //Fine Control
+        } else if (PlayerConfigs.fineCraneControl){
+            Robot.crane.setArmPosition(Robot.crane.getRotator() + PlayerConfigs.fineRotateControl * Constants.fineRotateSpeed);
+            Robot.crane.setExtendPosition(Robot.crane.getExtender() + PlayerConfigs.fineExtendControl);
+            Robot.crane.setArticulatorPosition(-Robot.crane.getRotator());
+            Robot.crane.setEndEffector(EndEffectorState.PLACEMENT, PlayerConfigs.clawOperate);
         //STORAGE
         } else {
             Robot.crane.setArmPosition(Constants.kRotatorClosed);

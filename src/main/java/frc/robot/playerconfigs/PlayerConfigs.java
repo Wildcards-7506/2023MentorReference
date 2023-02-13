@@ -8,17 +8,19 @@ public class PlayerConfigs {
     public static double turnMovement;
     public static double turnSpeed;
     public static double driveSpeed;
+    public static boolean brake;
     public static boolean snap0;
+    public static boolean snap90;
+    public static boolean snap270;
     public static boolean snap180;
+    public static boolean alignDrivetrain;
+    public static double kRampRate;
 
-    public static double fineControl;
-    public static double fxMovement;
-    public static double fyMovement;
-    public static double fturnMovement;
-    public static double fturnSpeed;
-    public static double fdriveSpeed;
+    public static boolean fineControlToggle;
+    public static double fineTurnSpeed;
+    public static double fineDriveSpeed;
 
-    public static double modeSwitch;
+    public static boolean modeSwitch;
 
     //limelight
     public static boolean switchPipeline;
@@ -33,6 +35,9 @@ public class PlayerConfigs {
     public static boolean midPosition;
     public static boolean hiPosition;
     public static boolean collectPosition;
+    public static boolean fineCraneControl;
+    public static double fineRotateControl;
+    public static double fineExtendControl;
 
     //Claw
     public static boolean rollerCollect;

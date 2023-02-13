@@ -59,7 +59,6 @@ public final class Constants {
         //Speed and Power Limits
         public static final int kDrivetrainCurrentLimit = 30;
         public static final int kDropWheelCurrentLimit = 30;
-        public static final double kRampRate = 0.01;
         public static final int kDropWheelDistance = 2;
         public static final double kAlignmentSpeed = 0.2;
         public static final double kMaxSpeedMetersPerSecond = 3;
@@ -118,6 +117,7 @@ public final class Constants {
         public static final double kRotatorMid = 220.0;
         public static final double kRotatorCollect = 60.0;
         public static final double kRotatorClosed = 0.0;
+        public static final double fineRotateSpeed = 0.01;
 
         public static final int kExtenderCurrentLimit = 30;
         public static final double kExtendEncoderDistancePerPulse = 1.0/8;

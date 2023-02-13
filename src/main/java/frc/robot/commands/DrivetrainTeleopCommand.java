@@ -1,18 +1,14 @@
 package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.playerconfigs.PlayerConfigs;
 
 public class DrivetrainTeleopCommand extends CommandBase{
 
-    private boolean driveMode = true;
-    double prevX = 0;
-    double prevY = 0;
-    double prevTurn = 0;
-    double xSpeed;
-    double ySpeed;
-    double turnSpeed;
+    double prevXspeed = 0;
+    double prevYspeed = 0;
+    double prevRot = 0;
+    double xspeed, yspeed, rot;
 
     public DrivetrainTeleopCommand() {
         addRequirements(Robot.drivetrain);
@@ -20,39 +16,67 @@ public class DrivetrainTeleopCommand extends CommandBase{
 
     @Override
     public void execute(){
-        turnSpeed = Constants.kRampRate * (PlayerConfigs.turnMovement * PlayerConfigs.turnSpeed) + (1-Constants.kRampRate) * prevTurn;
-        xSpeed = Constants.kRampRate * (PlayerConfigs.driveSpeed * PlayerConfigs.xMovement) + (1-Constants.kRampRate) * prevX;
-        ySpeed = Constants.kRampRate * (PlayerConfigs.driveSpeed * PlayerConfigs.yMovement) + (1-Constants.kRampRate) * prevY;
-
-        //Mecanum Drive, Strafing Enabled
-        if(driveMode){
-            if (PlayerConfigs.snap0){
-                Robot.drivetrain.snap(0);
-            } else if (PlayerConfigs.snap180){
-                Robot.drivetrain.snap(180);
-            } else if(PlayerConfigs.groundPosition || PlayerConfigs.hiPosition || PlayerConfigs.midPosition || PlayerConfigs.collectPosition){
-                Robot.drivetrain.drive( PlayerConfigs.fxMovement * PlayerConfigs.fdriveSpeed, 
-                                        PlayerConfigs.fyMovement * PlayerConfigs.fdriveSpeed, 
-                                        PlayerConfigs.fturnSpeed * PlayerConfigs.fturnSpeed, 
-                                        true);
+        //Mecanum Drive
+        if(!PlayerConfigs.modeSwitch){
+            double xInputSpeed = PlayerConfigs.fineControlToggle ? 
+                PlayerConfigs.fineDriveSpeed * PlayerConfigs.xMovement :
+                PlayerConfigs.driveSpeed * PlayerConfigs.xMovement;
+            double yInputSpeed = PlayerConfigs.fineControlToggle ? 
+                PlayerConfigs.fineDriveSpeed * PlayerConfigs.yMovement : 
+                PlayerConfigs.driveSpeed * PlayerConfigs.yMovement;
+            double inputRot = PlayerConfigs.fineControlToggle ? 
+                PlayerConfigs.fineTurnSpeed * PlayerConfigs.turnMovement : 
+                PlayerConfigs.turnMovement * PlayerConfigs.turnSpeed;
+            //Fine Control
+            if(PlayerConfigs.fineControlToggle){
+                xspeed = xInputSpeed;
+                yspeed = yInputSpeed;
+                rot = inputRot;
             } else {
-                Robot.drivetrain.setDropWheels(0);
-                Robot.drivetrain.drive(xSpeed, ySpeed, turnSpeed, true);
-            }
+                xspeed = PlayerConfigs.kRampRate * xInputSpeed + (1 - PlayerConfigs.kRampRate) * prevXspeed;
+                yspeed = PlayerConfigs.kRampRate * yInputSpeed + (1 - PlayerConfigs.kRampRate) * prevYspeed;
+                rot = PlayerConfigs.kRampRate * inputRot + (1 - PlayerConfigs.kRampRate) * prevRot;
+            }            
+        //Tank Drive
         } else {
-            //Tank Drive, Strafing Disabled
-            Robot.drivetrain.setDropWheels(Constants.kDropWheelDistance);
-            Robot.drivetrain.drive(xSpeed, 0, turnSpeed, false);
+            //Need to add drop motors here
+            double yInputSpeed = PlayerConfigs.fineControlToggle ? 
+                PlayerConfigs.fineDriveSpeed * PlayerConfigs.yMovement : 
+                PlayerConfigs.driveSpeed * PlayerConfigs.yMovement;
+            double inputRot = PlayerConfigs.fineControlToggle ? 
+                PlayerConfigs.fineTurnSpeed * PlayerConfigs.turnMovement : 
+                PlayerConfigs.driveSpeed * PlayerConfigs.turnMovement * PlayerConfigs.turnSpeed;
+            //Fine Control
+            if(PlayerConfigs.fineControlToggle){
+                xspeed = 0;
+                yspeed = yInputSpeed;
+                rot = inputRot;
+            } else {
+                xspeed = 0;
+                yspeed = PlayerConfigs.kRampRate * yInputSpeed + (1 - PlayerConfigs.kRampRate) * prevYspeed;
+                rot = PlayerConfigs.kRampRate * inputRot + (1 - PlayerConfigs.kRampRate) * prevRot;
+            }    
         }
 
-        prevX = xSpeed;
-        prevY = ySpeed;
-        prevTurn = turnSpeed;
+        prevXspeed = xspeed;
+        prevYspeed = yspeed;
+        prevRot = rot;
 
-        if (PlayerConfigs.modeSwitch > 0.8){
-            driveMode = false;
+        //Snap if needed, otherwise set drive motors
+        if(PlayerConfigs.snap0){
+            Robot.drivetrain.snap(0);
+        } else if(PlayerConfigs.snap90) {
+            Robot.drivetrain.snap(90);
+        } else if(PlayerConfigs.snap180) {
+            Robot.drivetrain.snap(180);
+        } else if(PlayerConfigs.snap270){
+            Robot.drivetrain.snap(270);
+        } else if(PlayerConfigs.alignDrivetrain){
+            Robot.drivetrain.targetAlign();
+        } else if (PlayerConfigs.brake) {
+            Robot.drivetrain.drive(0, 0, 0, true);
         } else {
-            driveMode = true;
-        }
+            Robot.drivetrain.drive(yspeed, xspeed, rot, !PlayerConfigs.modeSwitch);
+        }    
     }
 }
