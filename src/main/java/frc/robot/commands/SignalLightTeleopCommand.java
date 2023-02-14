@@ -15,16 +15,16 @@ public class SignalLightTeleopCommand extends CommandBase{
     public void execute(){
         if (Robot.limelight.getTV() != 0){
             if(Robot.limelight.getTX() < 5){
-                Robot.signalLight.solid(60, 255, 255);
+                Robot.signalLight.solid(60, 255);
             } else{
-                Robot.signalLight.solid(15, 255, 255);
+                Robot.signalLight.solid(15, 255);
             }
             locked = false;
         } else if (PlayerConfigs.coneSignal){
-            Robot.signalLight.solid(30, 255, 255);
+            Robot.signalLight.solid(30, 255);
             locked = true;
         } else if (PlayerConfigs.cubeSignal){
-            Robot.signalLight.solid(150, 255, 255);
+            Robot.signalLight.solid(150, 255);
             locked = true;
         } else if (PlayerConfigs.unlockLED){
             locked = false;
